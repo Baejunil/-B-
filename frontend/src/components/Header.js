@@ -11,7 +11,8 @@ function Header() {
       <div className="nav">
         <button className="nav-btn">홈</button>
         <button className="nav-btn">방명록</button>
-        <button className="nav-btn">사진첩</button>
+        <button className="nav-btn">다이어리
+        </button>
         <button className="nav-btn">게시판</button>
       </div>
     </div>

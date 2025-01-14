@@ -2,8 +2,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #ffccff;
     padding: 10px 20px;
+    background-color: #fbeff5;
+    border-bottom: 2px solid #e1e1e1;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
   
   .profile {
@@ -15,29 +17,33 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    border: 2px solid #ff99cc;
+    margin-right: 10px;
+    border: 2px solid #ffccff;
   }
   
   .status-message {
-    margin-left: 10px;
     font-size: 16px;
+    font-weight: bold;
+    color: #555;
   }
   
   .nav {
     display: flex;
+    gap: 10px;
   }
   
   .nav-btn {
-    margin: 0 5px;
-    padding: 5px 10px;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: 8px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 20px;
+    background-color: #ffccff;
+    color: #fff;
     cursor: pointer;
+    transition: background-color 0.3s ease;
   }
   
   .nav-btn:hover {
-    background: #ff99cc;
-    color: #fff;
+    background-color: #ff99cc;
   }
   
