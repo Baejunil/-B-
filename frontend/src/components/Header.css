@@ -1,0 +1,43 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffccff;
+    padding: 10px 20px;
+  }
+  
+  .profile {
+    display: flex;
+    align-items: center;
+  }
+  
+  .profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #ff99cc;
+  }
+  
+  .status-message {
+    margin-left: 10px;
+    font-size: 16px;
+  }
+  
+  .nav {
+    display: flex;
+  }
+  
+  .nav-btn {
+    margin: 0 5px;
+    padding: 5px 10px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .nav-btn:hover {
+    background: #ff99cc;
+    color: #fff;
+  }
+  

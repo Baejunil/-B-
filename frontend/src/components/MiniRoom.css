@@ -1,0 +1,29 @@
+.miniroom {
+    position: relative;
+    height: 300px;
+    background: #fff;
+    border: 2px solid #ffccff;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .room-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .items {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .item {
+    position: absolute;
+    cursor: grab;
+    font-size: 24px;
+  }
+  

@@ -1,0 +1,18 @@
+.sidebar {
+    flex: 1;
+    margin-left: 20px;
+    padding: 10px;
+    background: #fff;
+    border: 2px solid #ffccff;
+    border-radius: 10px;
+  }
+  
+  .visitor-count {
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .latest-guestbook {
+    margin-top: 10px;
+  }
+  
