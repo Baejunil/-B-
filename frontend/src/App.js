@@ -1,23 +1,22 @@
-import logo from './logo.svg';
+
 import './App.css';
 
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
 function App() {
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    axios.get("http://localhost:8081/api/hello")
+      .then((response) => setMessage(response.data))
+      .catch((error) => console.error("Error fetching message:", error));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Fitness & Music Minihome</h1>
+      <p>Backend Message: {message}</p>
     </div>
   );
 }
