@@ -1,70 +1,69 @@
 import React, { useState } from "react";
+import axiosInstance from "../api/axiosInstance";
 import { useNavigate } from "react-router-dom";
-import "./Signup.css";
 
-function Signup() {
+function Signup({ setIsLoggedIn }) {
+  const [userId, setUserId] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [status, setStatus] = useState("");
   const navigate = useNavigate();
-
-  const handleSignup = () => {
-    if (password !== confirmPassword) {
-      alert("비밀번호가 일치하지 않습니다.");
+  const handleSignup = async () => {
+    if (!userId || !email || !password) {
+      setStatus("모든 필드를 입력해주세요.");
       return;
     }
-    // 회원가입 처리 로직 (추후 API 연동 가능)
-    alert("회원가입 성공! 로그인 페이지로 이동합니다.");
-    navigate("/"); // 회원가입 후 로그인 페이지로 이동
+  
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setStatus("유효한 이메일 주소를 입력해주세요.");
+      return;
+    }
+  
+    try {
+      const response = await axiosInstance.post("/users/signup", {
+        userId,
+        email,
+        password,
+      });
+      setStatus("회원가입 성공");
+      setIsLoggedIn(true); // 로그인 상태 설정
+      navigate("/home"); // 회원가입 후 홈으로 이동
+    } catch (error) {
+      if (error.response) {
+        setStatus(`회원가입 실패: ${error.response.status} - ${error.response.data}`);
+      } else if (error.request) {
+        setStatus("회원가입 실패: 서버가 응답하지 않습니다.");
+      } else {
+        setStatus("회원가입 실패: " + error.message);
+      }
+    }
   };
+  
+  
 
   return (
-    <div className="signup-container">
+    <div>
       <h2>회원가입</h2>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <div className="input-group">
-          <label htmlFor="email">이메일</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="input-group">
-          <label htmlFor="password">비밀번호</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="input-group">
-          <label htmlFor="confirm-password">비밀번호 확인</label>
-          <input
-            type="password"
-            id="confirm-password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </div>
-
-        <button type="button" onClick={handleSignup}>
-          회원가입
-        </button>
-      </form>
-      <p>
-        이미 계정이 있으신가요?{" "}
-        <button className="link-btn" onClick={() => navigate("/")}>
-          로그인
-        </button>
-      </p>
+      <input
+        type="text"
+        placeholder="아이디"
+        value={userId}
+        onChange={(e) => setUserId(e.target.value)}
+      />
+      <input
+        type="email"
+        placeholder="이메일"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="비밀번호"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button onClick={handleSignup}>회원가입</button>
+      <p>{status}</p>
     </div>
   );
 }

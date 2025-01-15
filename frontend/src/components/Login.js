@@ -12,7 +12,7 @@ function Login({ setIsLoggedIn }) {
     if (email === "1" && password === "1") {
       alert("로그인 성공!");
       setIsLoggedIn(true); // 로그인 상태 변경
-      navigate("/miniroom"); // 미니룸 페이지로 이동
+      navigate("/home"); // 홈 페이지로 이동
     } else {
       alert("아이디 또는 비밀번호가 틀렸습니다.");
     }
