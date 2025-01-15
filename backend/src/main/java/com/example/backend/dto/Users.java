@@ -19,7 +19,12 @@ public class Users {
     private String username;
 
     @Temporal(TemporalType.DATE)
-    private Date joinDate = new Date();
+    private Date joinDate;
+
+    // 기본 생성자
+    public Users() {
+        this.joinDate = new Date(); // 기본 생성자에서 joinDate 초기화
+    }
 
     // Getter, Setter
     public String getUserId() { return userId; }
