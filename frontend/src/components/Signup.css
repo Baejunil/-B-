@@ -1,46 +1,103 @@
+/* 전체 페이지 배경과 레이아웃 */
+.signup-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* 상단 헤더 스타일 */
+.signup-header {
+  background-color: #fbeff5;
+  padding: 20px 0;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.signup-header h1 {
+  margin: 0;
+  font-size: 28px;
+  color: #ff6b6b;
+}
+
+/* 회원가입 컨테이너 스타일 */
 .signup-container {
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    width: 300px;
-    border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .signup-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .signup-container .input-group {
-    margin-bottom: 15px;
-  }
-  
-  .signup-container .input-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  .signup-container .input-group input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .signup-container button {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .signup-container button:hover {
-    background-color: #0056b3;
-  }
-  
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signup-card {
+  width: 350px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* 입력 필드 스타일 */
+.input-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.input-group input:focus {
+  border-color: #ff6b6b;
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 107, 107, 0.5);
+}
+
+/* 버튼 스타일 */
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #ff4c4c;
+}
+
+/* 상태 메시지 스타일 */
+.status-message {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #ff6b6b;
+}
+
+/* 하단 푸터 스타일 */
+.signup-footer {
+  background-color: #fbeff5;
+  padding: 10px 0;
+  text-align: center;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.signup-footer p {
+  margin: 0;
+  color: #555;
+  font-size: 14px;
+}

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
+import axios from "../api/axiosInstance"; // 공통 Axios 인스턴스 사용
 import "./Diary.css";
 
 function Diary() {
@@ -9,30 +9,37 @@ function Diary() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    // 초기 다이어리 항목 불러오기
+    const fetchDiaries = async () => {
+      try {
+        const response = await axios.get("/diary");
+        setDiaryEntries(response.data);
+      } catch (err) {
+        setError("다이어리를 불러오는 데 실패했습니다.");
+      }
+    };
+
+    fetchDiaries();
+  }, []);
+
   const handleAddDiary = async () => {
     if (title.trim() && content.trim()) {
       try {
-        setLoading(true); // 로딩 시작
-        setError(""); // 에러 메시지 초기화
+        setLoading(true);
+        setError("");
 
-        // API 요청
-        const response = await axios.post("http://localhost:8080/api/diary", {
-          title,
-          content,
-        });
-
-        // 요청 성공 시 다이어리 항목 추가
-        setDiaryEntries([...diaryEntries, response.data]);
-
-        // 입력값 초기화
+        const response = await axios.post("/diary", { title, content });
+        setDiaryEntries((prev) => [...prev, response.data]);
         setTitle("");
         setContent("");
       } catch (err) {
-        // 에러 처리
-        setError("다이어리 항목을 추가하는 데 실패했습니다.");
+        setError(err.response?.data?.message || "다이어리를 추가하는 데 실패했습니다.");
       } finally {
-        setLoading(false); // 로딩 끝
+        setLoading(false);
       }
+    } else {
+      setError("제목과 내용을 입력하세요.");
     }
   };
 
@@ -58,7 +65,7 @@ function Diary() {
       </div>
       <div className="diary-entries">
         {diaryEntries.map((entry, index) => (
-          <div key={index} className="diary-entry">
+          <div key={entry.diaryId || index} className="diary-entry">
             <h3>{entry.title}</h3>
             <p>{entry.content}</p>
           </div>

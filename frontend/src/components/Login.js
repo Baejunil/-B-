@@ -8,52 +8,64 @@ function Login({ setIsLoggedIn }) {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    // 임시 로그인 검증 로직: "1", "1"로 로그인 가능하게 설정
     if (email === "1" && password === "1") {
       alert("로그인 성공!");
-      setIsLoggedIn(true); // 로그인 상태 변경
-      navigate("/home"); // 홈 페이지로 이동
+      setIsLoggedIn(true);
+      navigate("/home");
     } else {
       alert("아이디 또는 비밀번호가 틀렸습니다.");
     }
   };
 
   return (
-    <div className="login-container">
-      <h2>로그인</h2>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <div className="input-group">
-          <label htmlFor="email">이메일</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
+    <div className="login-page">
+      {/* 상단 헤더 영역 */}
+      <div className="login-header">
+        <h1>Welcome Back!</h1>
+      </div>
 
-        <div className="input-group">
-          <label htmlFor="password">비밀번호</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+      {/* 중앙 로그인 카드 */}
+      <div className="login-container">
+        <div className="login-card">
+          <h2>로그인</h2>
+          <form onSubmit={(e) => e.preventDefault()}>
+            <div className="input-group">
+              <label htmlFor="email">이메일</label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className="input-group">
+              <label htmlFor="password">비밀번호</label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <button type="button" onClick={handleLogin}>
+              로그인
+            </button>
+          </form>
+          <p>
+            계정이 없으신가요?{" "}
+            <span className="link-btn" onClick={() => navigate("/signup")}>
+              회원가입
+            </span>
+          </p>
         </div>
+      </div>
 
-        <button type="button" onClick={handleLogin}>
-          로그인
-        </button>
-      </form>
-      <p>
-        계정이 없으신가요?{" "}
-        <button className="link-btn" onClick={() => navigate("/signup")}>
-          회원가입
-        </button>
-      </p>
+      {/* 하단 푸터 영역 */}
+      <div className="login-footer">
+        <p>🌟 행복한 하루 되세요! 🌟</p>
+      </div>
     </div>
   );
 }

@@ -14,6 +14,7 @@ public class DiaryService {
 	 @Autowired
 	    private DiaryRepository diaryRepository;
 
+	 
 	    // 일기 생성 (Create)
 	    public Diary createDiary(Diary diary) {
 	        return diaryRepository.save(diary);
