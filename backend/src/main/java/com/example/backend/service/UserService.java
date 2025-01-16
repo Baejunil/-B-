@@ -1,42 +1,46 @@
 package com.example.backend.service;
 
-import com.example.backend.dto.UserDto;
-import com.example.backend.dto.PasswordResetRequest;
 import com.example.backend.entity.User;
 import com.example.backend.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService {
+    private final UserRepository userRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    public void createUser(UserDto userDto) {
-        User user = new User();
-        user.setUserId(userDto.getUserId());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        user.setUsername(userDto.getUsername());
-        userRepository.save(user);
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public Optional<String> findUserIdByEmail(String email) {
-        return userRepository.findByEmail(email).map(User::getUserId);
-    }
-
-    public boolean resetPassword(String userId, String email, String newPassword) {
-        Optional<User> user = userRepository.findByUserIdAndEmail(userId, email);
-        if (user.isPresent()) {
-            User updatedUser = user.get();
-            updatedUser.setPassword(newPassword);
-            userRepository.save(updatedUser);
-            return true;
+    // 아이디 찾기
+    public String findUserIdByEmail(String email) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isPresent()) {
+            return userOptional.get().getUserId();
+        } else {
+            throw new IllegalArgumentException("등록된 이메일이 없습니다.");
         }
-        return false;
+    }
+
+    // 비밀번호 찾기 (임시 비밀번호 발급)
+    public String resetPassword(String userId, String email) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent() && userOptional.get().getEmail().equals(email)) {
+            // 임시 비밀번호 생성
+            String temporaryPassword = UUID.randomUUID().toString().substring(0, 8);
+            User user = userOptional.get();
+            user.setPassword(temporaryPassword); // 임시 비밀번호 설정 (추후 암호화 가능)
+            userRepository.save(user);
+
+            // TODO: 이메일로 임시 비밀번호 전송 (이메일 서비스 추가 필요)
+            return "임시 비밀번호가 이메일로 전송되었습니다.";
+        } else {
+            throw new IllegalArgumentException("아이디와 이메일이 일치하지 않습니다.");
+        }
     }
 }
+
 

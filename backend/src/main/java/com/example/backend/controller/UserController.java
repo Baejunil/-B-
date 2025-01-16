@@ -1,44 +1,56 @@
 package com.example.backend.controller;
 
-import com.example.backend.dto.UserDto;
-import com.example.backend.dto.PasswordResetRequest;
+import com.example.backend.dto.UserRequest;
+import com.example.backend.dto.UserResponse;
 import com.example.backend.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
+    private final UserService userService;
 
-    @Autowired
-    private UserService userService;
-
-    // 회원가입
-    @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody UserDto userDto) {
-        userService.createUser(userDto);
-        return ResponseEntity.ok("User registered successfully!");
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     // 아이디 찾기
-    @GetMapping("/find-id")
-    public ResponseEntity<String> findUserId(@RequestParam String email) {
-        Optional<String> userId = userService.findUserIdByEmail(email);
-        return userId.map(ResponseEntity::ok)
-                     .orElse(ResponseEntity.badRequest().body("User ID not found"));
+    @PostMapping("/find-id")
+    public ResponseEntity<?> findId(@RequestBody UserRequest.FindId request) {
+        try {
+            String userId = userService.findUserIdByEmail(request.getEmail());
+            return ResponseEntity.ok(new UserResponse.FindIdResponse(userId));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+        }
     }
 
-    // 비밀번호 재설정
+    // 비밀번호 찾기 (임시 비밀번호 발급)
     @PostMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestBody PasswordResetRequest request) {
-        boolean success = userService.resetPassword(request.getUserId(), request.getEmail(), request.getNewPassword());
-        if (success) {
-            return ResponseEntity.ok("Password reset successfully");
-        } else {
-            return ResponseEntity.badRequest().body("Invalid User ID or Email");
+    public ResponseEntity<?> resetPassword(@RequestBody UserRequest.ResetPassword request) {
+        try {
+            String message = userService.resetPassword(request.getUserId(), request.getEmail());
+            return ResponseEntity.ok(new UserResponse.ResetPasswordResponse(message));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+        }
+    }
+
+    // 내부 클래스: 에러 응답 구조
+    private static class ErrorResponse {
+        private String error;
+
+        public ErrorResponse(String error) {
+            this.error = error;
+        }
+
+        public String getError() {
+            return error;
+        }
+
+        public void setError(String error) {
+            this.error = error;
         }
     }
 }

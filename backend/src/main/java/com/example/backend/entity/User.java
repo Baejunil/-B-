@@ -1,41 +1,31 @@
 package com.example.backend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "Users")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
     @Id
     private String userId;
+
+    @Column(nullable = false, length = 100, unique = true)
     private String email;
+
+    @Column(nullable = false, length = 100)
     private String password;
+
+    @Column(nullable = false, length = 50)
     private String username;
 
-    // Getters and Setters
-    public String getUserId() {
-        return userId;
-    }
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    public String getUsername() {
-        return username;
-    }
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    @Column(nullable = false)
+    private String joinDate;
+
+    @Column(length = 50)
+    private String status;
 }
