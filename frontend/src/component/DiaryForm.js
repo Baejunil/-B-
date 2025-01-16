@@ -1,8 +1,24 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function DiaryForm({ createDiary }) {
+function DiaryForm() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [diaries, setDiaries] = useState([]);
+  const navigate = useNavigate();
+  // 다이어리 생성 함수
+  const createDiary = (newDiary) => {
+    fetch('http://localhost:8080/api/diary', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newDiary),
+    })
+      .then(response => response.json())
+      .then(createdDiary => setDiaries([...diaries, createdDiary]));
+      navigate('/diary');
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,7 +31,7 @@ function DiaryForm({ createDiary }) {
     setTitle('');
     setContent('');
   };
-
+  
   return (
     <form onSubmit={handleSubmit}>
       <h2>다이어리 작성</h2>

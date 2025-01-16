@@ -1,6 +1,7 @@
 import React from 'react';
-
-function DiaryList({ diaries, deleteDiary }) {
+import { Link } from 'react-router-dom';
+function DiaryList({ diaries}) {
+  
 
   return (
     <div>
@@ -9,10 +10,10 @@ function DiaryList({ diaries, deleteDiary }) {
         <ul>
           {diaries.map((diary) => (
             <li key={diary.diaryId}>
-              <h3>{diary.title}</h3>
-              <p>{diary.content}</p>
+              <h3>
+              <Link to={`/diary/${diary.diaryId}`}>{diary.title}</Link>
+              </h3>
               <p><strong>작성 날짜 : </strong> {new Date(diary.createdDate).toLocaleString()}</p>
-              <button onClick={() => deleteDiary(diary.diaryId)}>삭제</button>
             </li>
             
           ))}
