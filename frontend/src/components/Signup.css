@@ -2,13 +2,34 @@
 .signup-page {
   display: flex;
   flex-direction: column;
+  align-items: center;
   min-height: 100vh;
+  background: linear-gradient(135deg, #fbeff5, #ffffff);
   font-family: Arial, sans-serif;
+  position: relative;
+}
+
+/* 회원가입 제목 */
+.signup-title {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff;
+  padding: 10px 20px;
+  font-size: 32px;
+  font-weight: bold;
+  color: #ff6b6b;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: -30px; /* 헤더와의 간격 조정 */
+  z-index: 10;
 }
 
 /* 상단 헤더 스타일 */
 .signup-header {
   background-color: #fbeff5;
+  width: 100%;
   padding: 20px 0;
   text-align: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -16,7 +37,7 @@
 
 .signup-header h1 {
   margin: 0;
-  font-size: 28px;
+  font-size: 24px;
   color: #ff6b6b;
 }
 
@@ -26,46 +47,130 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  padding: 20px;
 }
 
 .signup-card {
-  width: 350px;
+  width: 400px;
   background-color: #fff;
-  padding: 20px;
+  padding: 30px 25px;
   border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-/* 입력 필드 스타일 */
-.input-group {
-  margin-bottom: 15px;
   text-align: left;
 }
 
-.input-group label {
+/* 입력 필드 그룹 */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   font-weight: bold;
   color: #555;
 }
 
-.input-group input {
+.form-group input,
+.form-group select {
   width: 100%;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
   box-sizing: border-box;
+  font-size: 14px;
 }
 
-.input-group input:focus {
+.form-group input:focus,
+.form-group select:focus {
   border-color: #ff6b6b;
   outline: none;
   box-shadow: 0 0 5px rgba(255, 107, 107, 0.5);
 }
 
-/* 버튼 스타일 */
-button {
+/* ID 중복 확인 */
+.id-check-wrapper {
+  display: flex;
+  gap: 10px;
+}
+
+.id-check-wrapper input {
+  flex: 1;
+}
+
+.id-check-wrapper button {
+  width: auto;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.id-check-wrapper button:hover {
+  background-color: #0056b3;
+}
+
+.id-check-message {
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.id-check-message.valid {
+  color: #28a745;
+}
+
+.id-check-message.error {
+  color: #dc3545;
+}
+
+/* 비밀번호 보기 버튼 */
+.show-password-btn {
+  width: auto;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.show-password-btn:hover {
+  background-color: #0056b3;
+}
+
+
+.show-password-btn {
+  margin-left: 10px;
+  padding: 8px;
+  font-size: 12px;
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.show-password-btn:hover {
+  background-color: #ff4c4c;
+}
+
+/* 상태 메시지 */
+.status-message {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #ff6b6b;
+}
+
+/* 회원가입 버튼 */
+.btn {
   width: 100%;
   padding: 12px;
   background-color: #ff6b6b;
@@ -74,25 +179,20 @@ button {
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
-button:hover {
+.btn:hover {
   background-color: #ff4c4c;
+  transform: scale(1.02);
 }
 
-/* 상태 메시지 스타일 */
-.status-message {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #ff6b6b;
-}
-
-/* 하단 푸터 스타일 */
+/* 하단 푸터 */
 .signup-footer {
   background-color: #fbeff5;
   padding: 10px 0;
   text-align: center;
+  width: 100%;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 
