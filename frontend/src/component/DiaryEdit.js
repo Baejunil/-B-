@@ -21,6 +21,7 @@ function DiaryEdit() {
     const updatedDiary = {
       title,
       content,
+      createdDate: new Date(),
     };
 
     fetch(`http://localhost:8080/api/diary/${id}`, {
