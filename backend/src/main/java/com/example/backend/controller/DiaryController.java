@@ -1,57 +1,63 @@
 package com.example.backend.controller;
 
-import com.example.backend.dto.Diary;
-import com.example.backend.repository.DiaryRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Optional;
+import com.example.backend.dto.Diary;
+import com.example.backend.service.DiaryService;
 
 @RestController
-@RequestMapping("/api/diaries")
+@RequestMapping("/api/diary")
+@CrossOrigin(origins = "http://localhost:3000")
 public class DiaryController {
-
-    @Autowired
-    private DiaryRepository diaryRepository;
-
-    // 다이어리 목록 조회
-    @GetMapping
-    public ResponseEntity<List<Diary>> getAllDiaries() {
-        List<Diary> diaries = diaryRepository.findAll();
-        return ResponseEntity.ok(diaries);
-    }
-
-    // 다이어리 작성
+	@Autowired
+	private DiaryService diaryService;
+	
+	// 일기 생성 (POST 요청)
     @PostMapping
     public ResponseEntity<Diary> createDiary(@RequestBody Diary diary) {
-        diary.setCreatedDate(new java.util.Date());
-        Diary savedDiary = diaryRepository.save(diary);
-        return ResponseEntity.ok(savedDiary);
+        Diary createdDiary = diaryService.createDiary(diary);
+        return ResponseEntity.ok(createdDiary);
     }
 
-    // 다이어리 수정
+    // 모든 일기 조회 (GET 요청)
+    @GetMapping
+    public List<Diary> getAllDiaries() {
+        return diaryService.getAllDiaries();
+    }
+
+    // 특정 일기 조회 (GET 요청)
+    @GetMapping("/{id}")
+    public ResponseEntity<Diary> getDiary(@PathVariable Long id) {
+        Diary diary = diaryService.getAllDiaries().stream()
+                                  .filter(d -> d.getDiaryId().equals(id))
+                                  .findFirst()
+                                  .orElse(null);
+        return diary != null ? ResponseEntity.ok(diary) : ResponseEntity.notFound().build();
+    }
+
+    // 일기 수정 (PUT 요청)
     @PutMapping("/{id}")
-    public ResponseEntity<Diary> updateDiary(@PathVariable Long id, @RequestBody Diary updatedDiary) {
-        Optional<Diary> diaryOptional = diaryRepository.findById(id);
-        if (diaryOptional.isPresent()) {
-            Diary diary = diaryOptional.get();
-            diary.setTitle(updatedDiary.getTitle());
-            diary.setContent(updatedDiary.getContent());
-            Diary savedDiary = diaryRepository.save(diary);
-            return ResponseEntity.ok(savedDiary);
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<Diary> updateDiary(@PathVariable Long id, @RequestBody Diary diary) {
+        Diary updatedDiary = diaryService.updateDiary(id, diary);
+        return updatedDiary != null ? ResponseEntity.ok(updatedDiary) : ResponseEntity.notFound().build();
     }
 
-    // 다이어리 삭제
+    // 일기 삭제 (DELETE 요청)
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDiary(@PathVariable Long id) {
-        if (diaryRepository.existsById(id)) {
-            diaryRepository.deleteById(id);
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.notFound().build();
+        diaryService.deleteDiary(id);
+        return ResponseEntity.noContent().build();
     }
 }
