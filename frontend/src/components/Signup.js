@@ -7,7 +7,11 @@ function Signup() {
     email: '',
     password: '',
     confirmPassword: '',
+    name: '',
+    birthdate: '',
+    gender: '',
   });
+
   const [isUsernameAvailable, setIsUsernameAvailable] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -26,7 +30,7 @@ function Signup() {
         setErrorMessage('');
       } else {
         setIsUsernameAvailable(false);
-        setErrorMessage('사용할 수 없는 아이디입니다.');
+        setErrorMessage('이미 사용 중인 아이디입니다.');
       }
     } catch (error) {
       console.error('아이디 중복 확인 오류:', error);
@@ -62,6 +66,7 @@ function Signup() {
     <form onSubmit={handleSubmit}>
       <h2>회원가입</h2>
 
+      {/* 아이디 입력 */}
       <label>
         아이디:
         <input
@@ -78,6 +83,7 @@ function Signup() {
       {isUsernameAvailable === false && <p style={{ color: 'red' }}>{errorMessage}</p>}
       {isUsernameAvailable === true && <p style={{ color: 'green' }}>사용 가능한 아이디입니다.</p>}
 
+      {/* 이메일 입력 */}
       <label>
         이메일:
         <input
@@ -89,6 +95,7 @@ function Signup() {
         />
       </label>
 
+      {/* 비밀번호 입력 */}
       <label>
         비밀번호:
         <input
@@ -100,6 +107,7 @@ function Signup() {
         />
       </label>
 
+      {/* 비밀번호 확인 */}
       <label>
         비밀번호 확인:
         <input
@@ -113,6 +121,40 @@ function Signup() {
       {formData.password !== formData.confirmPassword && (
         <p style={{ color: 'red' }}>비밀번호가 일치하지 않습니다.</p>
       )}
+
+      {/* 이름 입력 */}
+      <label>
+        이름:
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
+      </label>
+
+      {/* 생년월일 입력 */}
+      <label>
+        생년월일:
+        <input
+          type="date"
+          name="birthdate"
+          value={formData.birthdate}
+          onChange={handleChange}
+          required
+        />
+      </label>
+
+      {/* 성별 입력 */}
+      <label>
+        성별:
+        <select name="gender" value={formData.gender} onChange={handleChange} required>
+          <option value="">선택</option>
+          <option value="male">남성</option>
+          <option value="female">여성</option>
+        </select>
+      </label>
 
       <button type="submit">회원가입</button>
 
