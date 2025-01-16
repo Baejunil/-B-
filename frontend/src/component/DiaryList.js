@@ -1,6 +1,8 @@
 import React from 'react';
 
 function DiaryList({ diaries }) {
+    
+
   return (
     <div>
       <h2>다이어리 목록</h2>
@@ -11,6 +13,7 @@ function DiaryList({ diaries }) {
               <h3>{diary.title}</h3>
               <p>{diary.content}</p>
               <p><strong>작성 날짜 : </strong> {new Date(diary.createdDate).toLocaleString()}</p>
+              
             </li>
           ))}
         </ul>
