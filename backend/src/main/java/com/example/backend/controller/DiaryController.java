@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.backend.dto.Diary;
+import com.example.backend.dto.DiaryComment;
 import com.example.backend.service.DiaryService;
 
 @RestController
@@ -60,4 +61,39 @@ public class DiaryController {
         diaryService.deleteDiary(id);
         return ResponseEntity.noContent().build();
     }
+    
+    
+    
+ // 댓글 작성 (POST 요청)
+    @PostMapping("/{diaryId}/comments")
+    public ResponseEntity<DiaryComment> createComment(@PathVariable Long diaryId, @RequestBody DiaryComment comment) {
+        DiaryComment createdComment = diaryService.createComment(diaryId, comment);
+        return ResponseEntity.ok(createdComment);
+    }
+
+    // 댓글 조회 (GET 요청)
+    @GetMapping("/{diaryId}/comments")
+    public List<DiaryComment> getComments(@PathVariable Long diaryId) {
+        return diaryService.getComments(diaryId);
+    }
+
+    // 댓글 수정 (PUT 요청)
+    @PutMapping("/comments/{commentId}")
+    public ResponseEntity<DiaryComment> updateComment(@PathVariable Long commentId, @RequestBody DiaryComment comment) {
+        DiaryComment updatedComment = diaryService.updateComment(commentId, comment);
+        return updatedComment != null ? ResponseEntity.ok(updatedComment) : ResponseEntity.notFound().build();
+    }
+
+    // 댓글 삭제 (DELETE 요청)
+    @DeleteMapping("/comments/{commentId}")
+    public ResponseEntity<Void> deleteComment(@PathVariable Long commentId) {
+        diaryService.deleteComment(commentId);
+        return ResponseEntity.noContent().build();
+    }
+    
+    
+    
+    
+    
+    
 }
