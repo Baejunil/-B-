@@ -37,4 +37,9 @@ public class UserDto {
     public void setName(String name) { this.name = name; }
     public void setBirthDate(Date birthDate) { this.birthDate = birthDate; }
     public void setGender(String gender) { this.gender = gender; }
+
+	public Object getUsername() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
