@@ -13,8 +13,8 @@ function Header({ setIsLoggedIn }) {
 
   return (
     <div className="header">
-      <div className="profile">
-        <img src="/profile.png" alt="프로필 사진" className="profile-pic" />
+      <div className="profile1">
+        <img src="/cat.jpg" alt="프로필 사진" className="profile1-pic" />
         <div className="status-message">🌟 행복한 하루! 🌟</div>
       </div>
       <div className="nav">

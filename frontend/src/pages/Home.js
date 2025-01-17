@@ -4,24 +4,7 @@ import "./Home.css";
 function Home() {
   return (
     <div className="home-container">
-      <div className="profile-section">
-        <img src="/profile.png" alt="프로필 사진" className="profile-pic" />
-        <div className="profile-info">
-          <p>😀 이름</p>
-          <p>📞 Phone</p>
-          <p>📧 E-mail</p>
-          <p>⭐ 인스타그램</p>
-        </div>
-        <div className="mood-selector">
-          <label htmlFor="mood">오늘의 기분</label>
-          <select id="mood">
-            <option>기쁨 😍</option>
-            <option>슬픔 😢</option>
-            <option>화남 😡</option>
-            <option>설렘 💖</option>
-          </select>
-        </div>
-      </div>
+     
 
       <div className="news-section">
         <h2>Updated News</h2>

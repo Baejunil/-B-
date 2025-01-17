@@ -1,57 +1,16 @@
 /* 페이지 전체 레이아웃 */
 .diary-page {
   display: flex;
-  background-color: #f9f9ff;
+  background-color: #e6f7ff;
   border: 2px solid #cce7ff;
   border-radius: 10px;
   overflow: hidden;
   font-family: "Arial", sans-serif;
 }
 
-/* 사이드바 스타일 */
-.diary-sidebar {
-  width: 25%;
-  padding: 20px;
-  background-color: #e6f7ff;
-  border-right: 2px solid #cce7ff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 10px 0 0 10px;
-}
 
-.profile-pic {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  margin-bottom: 15px;
-  border: 3px solid #ffb6c1;
-}
 
-.profile-info p {
-  margin: 5px 0;
-  color: #555;
-  font-size: 14px;
-  text-align: center;
-}
 
-.mood-selector {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.mood-selector label {
-  font-size: 14px;
-  color: #333;
-}
-
-.mood-selector select {
-  width: 100%;
-  padding: 8px;
-  margin-top: 8px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-}
 
 /* 다이어리 메인 컨텐츠 */
 .diary-content {

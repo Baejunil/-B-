@@ -3,19 +3,19 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #fbeff5;
+  background-color: #ffccff;;
   border-bottom: 2px solid #e1e1e1;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.profile {
+.profile1 {
   display: flex;
   align-items: center;
 }
 
-.profile-pic {
-  width: 50px;
-  height: 50px;
+.profile1-pic {
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   margin-right: 10px;
   border: 2px solid #ffccff;

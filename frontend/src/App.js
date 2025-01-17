@@ -7,6 +7,9 @@ import Board from "./components/Board";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Layout from "./components/Layout";
+import DiaryDetail from "./components/DiaryDetail";
+import DiaryForm from "./components/DiaryForm";
+import DiaryEdit from "./components/DiaryEdit";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
@@ -18,6 +21,7 @@ function App() {
   }, [isLoggedIn]);
 
   return (
+    
     <Router>
       <Routes>
         <Route
@@ -40,10 +44,15 @@ function App() {
           path="/diary"
           element={<Layout setIsLoggedIn={setIsLoggedIn}><Diary /></Layout>}
         />
+           <Route path="/diary/create"  element={<Layout setIsLoggedIn={setIsLoggedIn}><DiaryForm /></Layout>} />
+        <Route path="/diary/:id"  element={<Layout setIsLoggedIn={setIsLoggedIn}><DiaryDetail /></Layout>} />  
+        <Route path="/diary/edit/:id"  element={<Layout setIsLoggedIn={setIsLoggedIn}><DiaryEdit /></Layout>} />
+
         <Route
           path="/board"
           element={<Layout setIsLoggedIn={setIsLoggedIn}><Board /></Layout>}
         />
+
       </Routes>
     </Router>
   );

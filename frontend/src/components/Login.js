@@ -1,21 +1,40 @@
+// Login.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
 function Login({ setIsLoggedIn }) {
-  const [email, setEmail] = useState("");
+  const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    if (email === "1" && password === "1") {
-      alert("로그인 성공!");
-      setIsLoggedIn(true);
-      navigate("/home");
-    } else {
-      alert("아이디 또는 비밀번호가 틀렸습니다.");
+  // 로그인 버튼(또는 폼) 제출 시 호출되는 함수
+  const handleLogin = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const response = await fetch("http://localhost:8080/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, password }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok && data.success) {
+        alert("로그인 성공!");
+        localStorage.setItem("token", data.token);
+        setIsLoggedIn(true);
+        navigate("/home");
+      } else {
+        alert(data.message || "로그인 실패");
+      }
+    } catch (error) {
+      console.error("로그인 에러:", error);
+      alert("로그인 요청 중 문제가 발생했습니다.");
     }
   };
+  
 
   return (
     <div className="login-page">
@@ -28,14 +47,14 @@ function Login({ setIsLoggedIn }) {
       <div className="login-container">
         <div className="login-card">
           <h2>로그인</h2>
-          <form onSubmit={(e) => e.preventDefault()}>
+          <form onSubmit={handleLogin}>
             <div className="input-group">
-              <label htmlFor="email">이메일</label>
+              <label htmlFor="userId">아이디</label>
               <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                type="text"
+                id="userId"
+                value={userId}
+                onChange={(e) => setUserId(e.target.value)}
                 required
               />
             </div>
@@ -49,9 +68,7 @@ function Login({ setIsLoggedIn }) {
                 required
               />
             </div>
-            <button type="button" onClick={handleLogin}>
-              로그인
-            </button>
+            <button type="submit">로그인</button>
           </form>
           <p>
             계정이 없으신가요?{" "}

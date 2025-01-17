@@ -4,6 +4,9 @@ package com.example.backend.dto;
 
 import java.util.Date;
 
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -33,5 +36,4 @@ public class Users {
     @Temporal(TemporalType.DATE)
     private Date joinDate;
 
-    private String status;
 }

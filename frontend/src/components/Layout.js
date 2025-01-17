@@ -1,16 +1,22 @@
 import React from "react";
 import Header from "./Header";
-import Footer from "./Footer";
 import "./Layout.css";
+import Footer from "./Footer";
+import MiniHomePage from "./MiniRoom/MiniHomePage";
 
 function Layout({ children, setIsLoggedIn }) {
   return (
     <div className="layout">
-      {/* Header에 setIsLoggedIn 전달 */}
+      {/* Header */}
       <Header setIsLoggedIn={setIsLoggedIn} />
+
+      {/* Main Content */}
       <div className="main-content">
+        <MiniHomePage />
         <div className="content">{children}</div>
       </div>
+
+      {/* Footer */}
       <Footer />
     </div>
   );
