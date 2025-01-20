@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import CommentForm from './DiaryCommentForm'; // 댓글 작성 폼
+
 import CommentList from './DiaryCommentList'; // 댓글 목록 표시
 
 function DiaryDetail() {
   const [diary, setDiary] = useState(null);
   const { id } = useParams(); // 다이어리 ID 파라미터 가져오기
   const navigate = useNavigate();
+  
+  
 
   useEffect(() => {
     fetch(`http://localhost:8080/api/diary/${id}`)
@@ -27,7 +29,9 @@ function DiaryDetail() {
       .catch(error => {
         console.error('Error:', error);
       });
+
   };
+ 
 
   return (
     <div>
@@ -40,8 +44,8 @@ function DiaryDetail() {
           <button onClick={() => navigate(`/diary/edit/${diary.diaryId}`)}>수정</button> {/* 수정 페이지로 이동 */}
           <button onClick={() => navigate(`/diary`)}>돌아가기</button> {/* 돌아가기 */}
           <br />
-          <CommentList diaryId={id} />
-          <CommentForm diaryId={id} />
+          <CommentList diaryId={id}  />
+          
         </>
       ) : (
         <p>다이어리를 불러오는 중...</p>

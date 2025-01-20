@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import CommentForm from './DiaryCommentForm'; // 댓글 작성 폼
 
 function DiaryCommentList({ diaryId }) {
   const [comments, setComments] = useState([]);
+
+  const handleCommentAdded = (newComment) => {
+    setComments((prevComments) => [...prevComments, newComment]); // 새로운 댓글 추가
+  };
+
+ 
 
   useEffect(() => {
     fetch(`http://localhost:8080/api/diary/${diaryId}/comments`)
@@ -21,6 +28,7 @@ function DiaryCommentList({ diaryId }) {
           </li>
         ))}
       </ul>
+      <CommentForm diaryId={diaryId} onCommentAdded={handleCommentAdded} />
     </div>
   );
 }

@@ -5,7 +5,7 @@ function DiaryList({ diaries}) {
 
   return (
     <div>
-      <h2>다이어리 목록</h2>
+
       {diaries.length > 0 ? (
         <ul>
           {diaries.map((diary) => (
