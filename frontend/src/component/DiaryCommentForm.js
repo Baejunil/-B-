@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 function DiaryCommentForm({ diaryId, onCommentAdded }) {
   const [comment, setComment] = useState('');
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     fetch(`http://localhost:8080/api/diary/${diaryId}/comments`, {

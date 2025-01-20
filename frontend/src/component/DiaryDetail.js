@@ -31,7 +31,7 @@ function DiaryDetail() {
       });
 
   };
- 
+  
 
   return (
     <div>
