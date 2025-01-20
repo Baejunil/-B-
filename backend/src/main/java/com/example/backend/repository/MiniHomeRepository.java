@@ -7,5 +7,5 @@ import com.example.backend.dto.MiniHome;
 
 @Repository
 public interface MiniHomeRepository extends JpaRepository<MiniHome, Long> {
-    MiniHome findByUserUserId(String userId);
+    MiniHome findByUserId(String userId); // 수정된 메서드 이름
 }

@@ -1,0 +1,250 @@
+/* 전체 레이아웃 */
+.diary-list-container,
+.diary-detail-container,
+.diary-form-container {
+  display: flex;
+  flex-direction: column;
+  width: 80%; /* 가로 폭 축소 */
+  margin: 20px auto;
+  background-color: #eef8fd;
+  border: 2px solid #7abcf5;
+  border-radius: 15px;
+  font-family: "Arial", sans-serif;
+  padding: 15px; /* 패딩 축소 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 공통 버튼 스타일 */
+.button {
+  padding: 5px 10px; /* 버튼 크기 축소 */
+  font-size: 12px; /* 글씨 크기 조정 */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-right: 8px; /* 간격 조정 */
+  width: 70px; /* 가로 폭 고정 */
+}
+
+.edit-button {
+  background-color: #ffc107;
+  color: black;
+}
+
+.edit-button:hover {
+  background-color: #e0a800;
+}
+
+.delete-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}
+
+.back-button,
+.submit-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.back-button:hover,
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+/* 리스트 스타일 */
+.diary-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.diary-list-container {
+  max-height: 500px; /* 리스트의 최대 높이 지정 */
+  overflow-y: auto; /* 스크롤 활성화 */
+}
+
+.loading-indicator {
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* 리스트 항목 */
+.diary-item {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 12px; /* 간격 축소 */
+  margin-bottom: 8px; /* 간격 축소 */
+  background-color: white;
+  border: 1px solid #7abcf5;
+  border-radius: 8px;
+  transition: transform 0.3s;
+}
+
+.diary-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.diary-item-title {
+  font-size: 14px; /* 글씨 크기 축소 */
+  font-weight: bold;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.diary-item-date {
+  font-size: 12px;
+  color: #555;
+  margin-top: 5px;
+}
+
+.diary-link {
+  text-decoration: none;
+}
+
+/* 상세보기 스타일 */
+.diary-header {
+  border-bottom: 1px solid #7abcf5;
+  padding-bottom: 8px;
+  margin-bottom: 15px;
+}
+
+.diary-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.diary-date {
+  font-size: 12px;
+  color: #666;
+}
+
+.diary-content {
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.loading-message,
+.empty-list-message {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* 댓글 섹션 */
+.diary-comment-section {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #7abcf5;
+  border-radius: 8px;
+}
+
+.diary-comment-header {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #007bff;
+}
+
+.diary-comment-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px 0;
+}
+
+.diary-comment-item {
+  padding: 8px;
+  margin-bottom: 8px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.comment-text {
+  font-size: 13px;
+  margin: 0;
+}
+
+.comment-date {
+  font-size: 11px;
+  color: #777;
+  margin-top: 5px;
+}
+
+.no-comments-message {
+  font-size: 13px;
+  color: #555;
+  text-align: center;
+}
+
+/* 작성 폼 스타일 */
+.diary-form-container h2 {
+  margin-bottom: 20px;
+  font-size: 24px; /* 제목 글씨 크기 축소 */
+  color: #333;
+}
+
+.diary-form-container label {
+  display: block;
+  font-size: 14px; /* 라벨 글씨 크기 축소 */
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.diary-form-container input,
+.diary-form-container textarea {
+  width: 95%; /* 크기를 95%로 조정하여 내용 칸 옆 여백 문제 해결 */
+  max-width: 95%; /* 최대 크기 제한 */
+  padding: 10px; /* 패딩 축소 */
+  margin-bottom: 10px; /* 간격 축소 */
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 15px; /* 글씨 크기 축소 */
+}
+
+.diary-form-container textarea {
+  resize: none;
+  height: 80px; /* 높이 조정 */
+}
+
+.diary-form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.submit-button,
+.back-button {
+  padding: 5px 10px;
+  font-size: 12px;
+  border: none;
+  border-radius: 5px;
+}
+
+.submit-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.submit-button:hover {
+  background-color: #218838;
+}
+
+.back-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.back-button:hover {
+  background-color: #0056b3;
+}

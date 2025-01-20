@@ -18,7 +18,7 @@ public class MiniHomeService {
      */
     public MiniHome findByUserId(String userId) {
         // String userId에 맞춰, repository 메서드도 맞게 수정
-        return miniHomeRepository.findByUserUserId(userId);
+        return miniHomeRepository.findByUserId(userId);
     }
 
     /**

@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Guestbook from "./components/Guestbook";
-import Diary from "./components/Diary";
+import Diary from "./components/Diary/Diary";
 import Board from "./components/Board";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Layout from "./components/Layout";
-import DiaryDetail from "./components/DiaryDetail";
-import DiaryForm from "./components/DiaryForm";
-import DiaryEdit from "./components/DiaryEdit";
+import DiaryDetail from "./components/Diary/DiaryDetail";
+import DiaryForm from "./components/Diary/DiaryForm";
+import DiaryEdit from "./components/Diary/DiaryEdit";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
