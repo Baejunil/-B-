@@ -1,40 +1,31 @@
 package com.example.backend.dto;
 
-import java.util.Date;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
+
+import java.util.Date;
 
 @Entity
 @Getter
 @Setter
-@ToString
 public class Guestbook {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long guestbookId;
 
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    private Users user;
+    @Column(nullable = true) // guest_id를 포함하지 않는다면 true로 설정
+    private String userId; // 작성자 ID
+
+    @Column(nullable = true) // guest_id를 포함하지 않는다면 true로 설정
+    private String guestId; // 방명록 대상 ID
 
     @Lob
-    private String message;
+    @Column(nullable = false) // 메시지는 필수로 작성
+    private String message; // 방명록 메시지
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
-
-    @ManyToOne
-    @JoinColumn(name = "guestId")
-    private Users guest;
+    @Column(nullable = false)
+    private Date createdDate; // 작성 날짜
 }

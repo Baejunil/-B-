@@ -1,213 +1,171 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // useNavigate 훅 추가
+import axios from "axios";
 import "./Signup.css";
 
-function Signup() {
-  const [form, setForm] = useState({
-    userId: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    name: "",
-    birthdate: "",
-    gender: "",
-  });
+const SignupForm = () => {
+    const [form, setForm] = useState({
+        userId: "",
+        password: "",
+        confirmPassword: "",
+        email: "",
+        name: "",
+        gender: "",
+        birthdate: ""
+    });
 
-  const [errors, setErrors] = useState({});
-  const [isIdChecked, setIsIdChecked] = useState(false);
-  const [idCheckMessage, setIdCheckMessage] = useState("");
-  const [existingIds] = useState(["user1", "user2", "admin"]);
-  const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(false); // 비밀번호 보기 상태
+    const [passwordMessage, setPasswordMessage] = useState(""); // 비밀번호 일치 여부 메시지
+    const navigate = useNavigate(); // useNavigate 훅 사용
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
-  };
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setForm({ ...form, [name]: value });
 
-  const validateForm = () => {
-    const newErrors = {};
-    if (!form.userId) newErrors.userId = "아이디를 입력해주세요.";
-    if (!form.email) newErrors.email = "이메일을 입력해주세요.";
-    if (!form.password) newErrors.password = "비밀번호를 입력해주세요.";
-    if (form.password !== form.confirmPassword)
-      newErrors.confirmPassword = "비밀번호가 일치하지 않습니다.";
-    if (!form.name) newErrors.name = "이름을 입력해주세요.";
-    if (!form.birthdate) newErrors.birthdate = "생년월일을 입력해주세요.";
-    if (!form.gender) newErrors.gender = "성별을 선택해주세요.";
+        // 비밀번호와 비밀번호 확인 필드의 값이 변경될 때 메시지 업데이트
+        if (name === "password" || name === "confirmPassword") {
+            if (name === "password" || form.confirmPassword) {
+                if (form.password !== value && name === "confirmPassword") {
+                    setPasswordMessage("비밀번호가 일치하지 않습니다.");
+                } else if (form.confirmPassword !== value && name === "password") {
+                    setPasswordMessage("비밀번호가 일치하지 않습니다.");
+                } else {
+                    setPasswordMessage("비밀번호가 일치합니다.");
+                }
+            }
+        }
+    };
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+    const toggleShowPassword = () => {
+        setShowPassword((prevShowPassword) => !prevShowPassword); // 보기/숨기기 토글
+    };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      alert("회원가입 성공!");
-      console.log("회원가입 데이터:", form);
-    }
-  };
+    const handleSignup = async (e) => {
+        e.preventDefault();
+        console.log("회원가입 요청 데이터:", form); // 폼 데이터 출력
+    
+        if (form.password !== form.confirmPassword) {
+            alert("비밀번호가 일치하지 않습니다.");
+            return;
+        }
+    
+        try {
+            const response = await axios.post(
+                "http://localhost:8080/api/users/signup", // 백엔드 URL
+                form // 요청 데이터
+            );
+            console.log("응답 데이터:", response.data); // 성공 응답 확인
+            alert("회원가입 성공!");
+    
+            // 여기서 navigate와 로그 실행
+            console.log("회원가입 성공, 로그인 페이지로 이동"); // 로그 출력
+            navigate("/login"); // 로그인 페이지로 이동
+        } catch (error) {
+            if (error.response) {
+                console.error("에러 응답:", error.response.data); // 서버 에러 로그
+                alert(error.response.data.error || "회원가입 실패");
+            } else {
+                console.error("요청 에러:", error.message);
+                alert("요청 처리 중 오류가 발생했습니다.");
+            }
+        }
+    };
 
-  const handleIdCheck = () => {
-    if (!form.userId) {
-      setIdCheckMessage("아이디를 입력해주세요.");
-      setIsIdChecked(false);
-      return;
-    }
-
-    if (existingIds.includes(form.userId)) {
-      setIdCheckMessage("중복된 아이디입니다.");
-      setIsIdChecked(false);
-    } else {
-      setIdCheckMessage("사용 가능한 아이디입니다.");
-      setIsIdChecked(true);
-    }
-  };
-
-  const toggleShowPassword = () => {
-    setShowPassword((prev) => !prev);
-  };
-
-  const isPasswordMatch = form.password === form.confirmPassword;
-
-  return (
-    <div className="signup-page">
-      <div className="signup-header">
-        <h1>회원가입</h1>
-      </div>
-      <div className="signup-container">
-        <div className="signup-card">
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="userId">아이디</label>
-              <div className="id-check-wrapper">
+    return (
+        <form onSubmit={handleSignup}>
+            <div>
+                <label>아이디:</label>
                 <input
-                  type="text"
-                  id="userId"
-                  name="userId"
-                  value={form.userId}
-                  onChange={handleChange}
-                  placeholder="아이디를 입력하세요"
+                    type="text"
+                    name="userId"
+                    value={form.userId}
+                    onChange={handleChange}
+                    placeholder="아이디를 입력하세요"
                 />
-                <button type="button" onClick={handleIdCheck}>
-                  중복 확인
-                </button>
-              </div>
-              {idCheckMessage && (
-                <p className={`id-check-message ${isIdChecked ? "valid" : "error"}`}>
-                  {idCheckMessage}
-                </p>
-              )}
-              {errors.userId && <p className="error">{errors.userId}</p>}
             </div>
-
-            <div className="form-group">
-              <label htmlFor="email">이메일</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                placeholder="이메일을 입력하세요"
-              />
-              {errors.email && <p className="error">{errors.email}</p>}
+            <div>
+                <label>비밀번호:</label>
+                <div style={{ display: "flex", alignItems: "center", position: "relative" }}>
+                    <input
+                        type={showPassword ? "text" : "password"} // 보기/숨기기 상태에 따라 type 변경
+                        name="password"
+                        value={form.password}
+                        onChange={handleChange}
+                        placeholder="비밀번호를 입력하세요"
+                        style={{ flex: 1 }}
+                    />
+                    <span
+                        onClick={toggleShowPassword}
+                        style={{
+                            position: "absolute",
+                            right: "10px",
+                            cursor: "pointer",
+                            color: "#007bff",
+                            userSelect: "none"
+                        }}
+                    >
+                        {showPassword ? "👁️" : "🙈"} {/* 아이콘 변경 */}
+                    </span>
+                </div>
             </div>
-
-                      <div className="form-group">
-            <label htmlFor="password">비밀번호</label>
-            <div className="password-wrapper">
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                name="password"
-                value={form.password}
-                onChange={handleChange}
-                placeholder="비밀번호를 입력하세요"
-              />
-              <button
-                type="button"
-                onClick={toggleShowPassword}
-                className="show-password-btn"
-              >
-                {showPassword ? "숨기기" : "보기"}
-              </button>
+            <div>
+                <label>비밀번호 확인:</label>
+                <input
+                    type="password"
+                    name="confirmPassword"
+                    value={form.confirmPassword}
+                    onChange={handleChange}
+                    placeholder="비밀번호를 다시 입력하세요"
+                />
+                {passwordMessage && (
+                    <p style={{ color: passwordMessage === "비밀번호가 일치합니다." ? "green" : "red" }}>
+                        {passwordMessage}
+                    </p>
+                )}
             </div>
-            {errors.password && <p className="error">{errors.password}</p>}
-          </div>
-
-            <div className="form-group">
-              <label htmlFor="confirmPassword">비밀번호 확인</label>
-              <input
-                type="password"
-                id="confirmPassword"
-                name="confirmPassword"
-                value={form.confirmPassword}
-                onChange={handleChange}
-                placeholder="비밀번호를 다시 입력하세요"
-              />
-              <p
-                className={`password-match ${
-                  isPasswordMatch ? "match" : "mismatch"
-                }`}
-              >
-                {form.confirmPassword
-                  ? isPasswordMatch
-                    ? "비밀번호가 일치합니다."
-                    : "비밀번호가 일치하지 않습니다."
-                  : ""}
-              </p>
+            <div>
+                <label>이메일:</label>
+                <input
+                    type="email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    placeholder="이메일을 입력하세요"
+                />
             </div>
-
-            <div className="form-group">
-              <label htmlFor="name">이름</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                placeholder="이름을 입력하세요"
-              />
-              {errors.name && <p className="error">{errors.name}</p>}
+            <div>
+                <label>이름:</label>
+                <input
+                    type="text"
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
+                    placeholder="이름을 입력하세요"
+                />
             </div>
-
-            <div className="form-group">
-              <label htmlFor="birthdate">생년월일</label>
-              <input
-                type="date"
-                id="birthdate"
-                name="birthdate"
-                value={form.birthdate}
-                onChange={handleChange}
-              />
-              {errors.birthdate && <p className="error">{errors.birthdate}</p>}
+            <div>
+                <label>성별:</label>
+                <select name="gender" value={form.gender} onChange={handleChange}>
+                    <option value="">선택</option>
+                    <option value="male">남성</option>
+                    <option value="female">여성</option>
+                </select>
             </div>
-
-            <div className="form-group">
-              <label htmlFor="gender">성별</label>
-              <select
-                id="gender"
-                name="gender"
-                value={form.gender}
-                onChange={handleChange}
-              >
-                <option value="">선택</option>
-                <option value="male">남성</option>
-                <option value="female">여성</option>
-              </select>
-              {errors.gender && <p className="error">{errors.gender}</p>}
+            <div>
+                <label>생년월일:</label>
+                <input
+                    type="date"
+                    name="birthdate"
+                    value={form.birthdate}
+                    onChange={handleChange}
+                />
+                
             </div>
+            
+            <button type="submit">회원가입</button>
+        </form>
+        
+    );
+};
 
-            <button type="submit" className="btn">
-              회원가입
-            </button>
-          </form>
-        </div>
-      </div>
-      <div className="signup-footer">
-        <p>🌟 행복한 하루 되세요! 🌟</p>
-      </div>
-    </div>
-  );
-}
-
-export default Signup;
+export default SignupForm;

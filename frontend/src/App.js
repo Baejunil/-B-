@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-router-dom"; // Link 추가
 import Home from "./pages/Home";
-import Guestbook from "./components/Guestbook";
+import Guestbook from "./components/Guestbook/Guestbook";
 import Diary from "./components/Diary/Diary";
 import Board from "./components/Board";
 import Login from "./components/Login";
@@ -21,14 +20,24 @@ function App() {
   }, [isLoggedIn]);
 
   return (
-    
     <Router>
+  <div>
+        <h1>사용자 계정 관리</h1>
+        <nav>
+          <ul>
+            <li><Link to="/signup">회원가입</Link></li>
+            <li><Link to="/login">로그인</Link></li>
+            <li><Link to="/find-id">아이디 찾기</Link></li>
+            <li><Link to="/reset-password">비밀번호 찾기</Link></li>
+          </ul>
+        </nav>
+        console.log("회원가입 성공, 로그인 페이지로 이동");
+        navigate("/login");
+</div>
       <Routes>
         <Route
           path="/"
-          element={
-            isLoggedIn ? <Navigate to="/home" /> : <Navigate to="/login" />
-          }
+          element={isLoggedIn ? <Navigate to="/home" /> : <Navigate to="/login" />}
         />
         <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="/signup" element={<Signup setIsLoggedIn={setIsLoggedIn} />} />
@@ -44,15 +53,22 @@ function App() {
           path="/diary"
           element={<Layout setIsLoggedIn={setIsLoggedIn}><Diary /></Layout>}
         />
-           <Route path="/diary/create"  element={<Layout setIsLoggedIn={setIsLoggedIn}><DiaryForm /></Layout>} />
-        <Route path="/diary/:id"  element={<Layout setIsLoggedIn={setIsLoggedIn}><DiaryDetail /></Layout>} />  
-        <Route path="/diary/edit/:id"  element={<Layout setIsLoggedIn={setIsLoggedIn}><DiaryEdit /></Layout>} />
-
+        <Route
+          path="/diary/create"
+          element={<Layout setIsLoggedIn={setIsLoggedIn}><DiaryForm /></Layout>}
+        />
+        <Route
+          path="/diary/:id"
+          element={<Layout setIsLoggedIn={setIsLoggedIn}><DiaryDetail /></Layout>}
+        />
+        <Route
+          path="/diary/edit/:id"
+          element={<Layout setIsLoggedIn={setIsLoggedIn}><DiaryEdit /></Layout>}
+        />
         <Route
           path="/board"
           element={<Layout setIsLoggedIn={setIsLoggedIn}><Board /></Layout>}
         />
-
       </Routes>
     </Router>
   );

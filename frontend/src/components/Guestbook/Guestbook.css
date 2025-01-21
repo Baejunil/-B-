@@ -1,0 +1,70 @@
+.guestbook-container {
+  padding: 20px;
+  background-color: #f9fafb;
+  max-width: 600px;
+  margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.guestbook-header h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.guestbook-header p {
+  font-size: 14px;
+  color: #666;
+}
+
+.guestbook-form {
+  display: flex;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.guestbook-form input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.guestbook-form button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.guestbook-form button:hover {
+  background-color: #0056b3;
+}
+
+.guestbook-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.guestbook-entry {
+  padding: 15px;
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.guestbook-date {
+  font-size: 12px;
+  color: #888;
+  margin-top: 5px;
+}
+
+.loading-indicator {
+  text-align: center;
+  margin-top: 20px;
+  color: #555;
+}

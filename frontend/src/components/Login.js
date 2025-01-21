@@ -1,90 +1,55 @@
-// Login.jsx
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "./Login.css";
+import axios from "axios";
 
-function Login({ setIsLoggedIn }) {
-  const [userId, setUserId] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+const LoginForm = () => {
+    const [form, setForm] = useState({ userId: "", password: "" });
 
-  // 로그인 버튼(또는 폼) 제출 시 호출되는 함수
-  const handleLogin = async (e) => {
-    e.preventDefault();
-  
-    try {
-      const response = await fetch("http://localhost:8080/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, password }),
-      });
-  
-      const data = await response.json();
-  
-      if (response.ok && data.success) {
-        alert("로그인 성공!");
-        localStorage.setItem("token", data.token);
-        setIsLoggedIn(true);
-        navigate("/home");
-      } else {
-        alert(data.message || "로그인 실패");
-      }
-    } catch (error) {
-      console.error("로그인 에러:", error);
-      alert("로그인 요청 중 문제가 발생했습니다.");
-    }
-  };
-  
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setForm({ ...form, [name]: value });
+    };
 
-  return (
-    <div className="login-page">
-      {/* 상단 헤더 영역 */}
-      <div className="login-header">
-        <h1>Welcome Back!</h1>
-      </div>
+    const handleSubmit = async (e) => {
+        e.preventDefault(); // 기본 폼 제출 동작 방지
 
-      {/* 중앙 로그인 카드 */}
-      <div className="login-container">
-        <div className="login-card">
-          <h2>로그인</h2>
-          <form onSubmit={handleLogin}>
-            <div className="input-group">
-              <label htmlFor="userId">아이디</label>
-              <input
+        try {
+            const response = await axios.post("http://localhost:8080/api/users/login", form);
+
+            // 서버가 반환한 응답 확인
+            if (response.data && response.data.message) {
+                alert(response.data.message); // 성공 메시지 표시
+            } else {
+                alert("서버 응답 형식이 올바르지 않습니다.");
+            }
+        } catch (error) {
+            // 에러 처리
+            if (error.response && error.response.data && error.response.data.error) {
+                alert(error.response.data.error); // 에러 메시지 표시
+            } else {
+                alert("예상치 못한 에러가 발생했습니다.");
+            }
+        }
+    };
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <input
                 type="text"
-                id="userId"
-                value={userId}
-                onChange={(e) => setUserId(e.target.value)}
-                required
-              />
-            </div>
-            <div className="input-group">
-              <label htmlFor="password">비밀번호</label>
-              <input
+                name="userId"
+                placeholder="아이디"
+                value={form.userId}
+                onChange={handleChange}
+            />
+            <input
                 type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
+                name="password"
+                placeholder="비밀번호"
+                value={form.password}
+                onChange={handleChange}
+            />
             <button type="submit">로그인</button>
-          </form>
-          <p>
-            계정이 없으신가요?{" "}
-            <span className="link-btn" onClick={() => navigate("/signup")}>
-              회원가입
-            </span>
-          </p>
-        </div>
-      </div>
+        </form>
+    );
+};
 
-      {/* 하단 푸터 영역 */}
-      <div className="login-footer">
-        <p>🌟 행복한 하루 되세요! 🌟</p>
-      </div>
-    </div>
-  );
-}
-
-export default Login;
+export default LoginForm;

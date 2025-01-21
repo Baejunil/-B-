@@ -10,11 +10,18 @@ function Diary() {
   const loaderRef = useRef(null); // Intersection Observer를 위한 ref
   const isIntersecting = useInfiniteScroll(loaderRef);
 
+  // 중복 데이터를 방지하도록 데이터 가져오기
   useEffect(() => {
     fetch(`http://localhost:8080/api/diary?page=${page}`)
       .then((response) => response.json())
       .then((data) => {
-        setDiaries((prevDiaries) => [...prevDiaries, ...data]); // 기존 데이터와 합치기
+        setDiaries((prevDiaries) => {
+          // 중복 데이터를 필터링
+          const newDiaries = data.filter(
+            (newDiary) => !prevDiaries.some((diary) => diary.id === newDiary.id)
+          );
+          return [...prevDiaries, ...newDiaries]; // 중복 제거된 데이터 추가
+        });
       })
       .catch((error) => console.error("Error fetching diaries:", error));
   }, [page]);
@@ -29,9 +36,7 @@ function Diary() {
     <div className="diary-container">
       <h1>다이어리</h1>
       <DiaryList diaries={diaries} />
-      <div ref={loaderRef} className="loading-indicator">
-        더 많은 다이어리를 불러오는 중...
-      </div>
+     
       <Link to="/diary/create">
         <button className="submit-button">작성</button>
       </Link>
