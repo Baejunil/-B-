@@ -3,11 +3,11 @@ import './App.css';
 
 import React from "react";
 
-import Diary from './component/Diary';
+import Diary from './component/diary/Diary';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import DiaryForm from './component/DiaryForm';
-import DiaryDetail from './component/DiaryDetail';
-import DiaryEdit from './component/DiaryEdit';
+import DiaryForm from './component/diary/DiaryForm';
+import DiaryDetail from './component/diary/DiaryDetail';
+import DiaryEdit from './component/diary/DiaryEdit';
 
 function App() {
   
