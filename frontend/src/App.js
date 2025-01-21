@@ -1,10 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
-import Signup from './components/Signup';
-import Login from './components/Login';
+import SignupForm from './components/SignupForm';
+import LoginForm from './components/LoginForm';
 import FindId from './components/FindId';
 import ResetPassword from './components/ResetPassword';
+
 
 
 
@@ -21,13 +22,10 @@ function App() {
             <li><Link to="/reset-password">비밀번호 찾기</Link></li>
           </ul>
         </nav>
-        console.log("회원가입 성공, 로그인 페이지로 이동");
-        navigate("/login");
-
 
         <Routes>
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignupForm />} />
+          <Route path="/login" element={<LoginForm />} />
           <Route path="/find-id" element={<FindId />} />
           <Route path="/reset-password" element={<ResetPassword />} />
         </Routes>

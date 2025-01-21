@@ -29,7 +29,7 @@ public class Users {
     private String username;
 
     @Temporal(TemporalType.DATE)
-    private Date joinDate;
+    private Date joinDate; 
     
     @Temporal(TemporalType.DATE)
     private String birthdate;

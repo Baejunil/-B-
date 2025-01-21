@@ -9,9 +9,10 @@ const SignupForm = () => {
         password: "",
         confirmPassword: "",
         email: "",
-        name: "",
+        username: "",
         gender: "",
-        birthdate: ""
+        birthdate: "",
+        joinDate: new Date(),
     });
 
     const [showPassword, setShowPassword] = useState(false); // 비밀번호 보기 상태

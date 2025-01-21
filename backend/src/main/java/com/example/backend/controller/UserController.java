@@ -1,13 +1,17 @@
 package com.example.backend.controller;
 
-import com.example.backend.dto.LoginRequest;
-import com.example.backend.dto.SignupRequest;
-import com.example.backend.service.UserService;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
+import com.example.backend.dto.LoginRequest;
+import com.example.backend.dto.Users;
+import com.example.backend.service.UserService;
 
 @RestController
 @RequestMapping("/api/users")
@@ -17,9 +21,9 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody SignupRequest signupRequest) {
+    public ResponseEntity<?> signup(@RequestBody Users user) {
         try {
-            userService.registerUser(signupRequest);
+            userService.registerUser(user);
             return ResponseEntity.ok(Map.of("message", "회원가입 성공"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
