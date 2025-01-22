@@ -9,6 +9,9 @@ import DiaryForm from './component/diary/DiaryForm';
 import DiaryDetail from './component/diary/DiaryDetail';
 import DiaryEdit from './component/diary/DiaryEdit';
 
+import Board from './component/board/Board';
+import BoardForm from './component/board/BoardForm';
+
 function App() {
   
 
@@ -19,6 +22,10 @@ function App() {
         <Route path="/diary/create" element={<DiaryForm />} />
         <Route path="/diary/:id" element={<DiaryDetail />} />  
         <Route path="/diary/edit/:id" element={<DiaryEdit />} />
+      </Routes>
+      <Routes>
+        <Route path="/board" element={<Board />} />
+        <Route path="/board/create" element={<BoardForm />} />
       </Routes>
     </Router>
   );

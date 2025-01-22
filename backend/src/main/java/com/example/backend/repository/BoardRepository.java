@@ -7,5 +7,5 @@ import com.example.backend.dto.Board;
 
 
 public interface BoardRepository extends JpaRepository<Board, Long>{
- 
+	Board findByPostId(long postId);
 }

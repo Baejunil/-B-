@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function BoardForm() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [boards, setBoards] = useState([]);
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   // 다이어리 생성 함수
   const createBoard = (newBoard) => {
     fetch('http://localhost:8080/api/board', {
@@ -17,7 +17,7 @@ function BoardForm() {
     })
       .then(response => response.json())
       .then(createdBoard => setBoards([...boards, createdBoard]));
-      //navigate('/board');
+      navigate('/board');
   };
 
   const handleSubmit = (e) => {
