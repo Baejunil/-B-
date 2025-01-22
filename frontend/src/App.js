@@ -1,9 +1,10 @@
+
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 import SignupForm from './components/SignupForm';
 import LoginForm from './components/LoginForm';
-import FindId from './components/FindId';
+import FindIdForm from './components/FindIdForm';
 import ResetPassword from './components/ResetPassword';
 
 
@@ -26,7 +27,7 @@ function App() {
         <Routes>
           <Route path="/signup" element={<SignupForm />} />
           <Route path="/login" element={<LoginForm />} />
-          <Route path="/find-id" element={<FindId />} />
+          <Route path="/find-id" element={<FindIdForm />} />
           <Route path="/reset-password" element={<ResetPassword />} />
         </Routes>
       </div>
