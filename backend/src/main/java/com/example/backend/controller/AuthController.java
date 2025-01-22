@@ -22,44 +22,32 @@ public class AuthController {
     private final UsersService userService;
     private final JwtProvider jwtProvider;
 
+    @PostMapping("/signup")
+    public ResponseEntity<?> signup(@RequestBody Users user) {
+        try {
+            userService.registerUser(user);
+            return ResponseEntity.ok(Map.of("message", "회원가입 성공"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         try {
-            LoginResponse response = userService.login(loginRequest);
-            return ResponseEntity.ok(Map.of("status", "success", "data", response));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
-                    Map.of("status", "error", "error", e.getMessage())
+            boolean isAuthenticated = userService.authenticate(
+                    loginRequest.getUserId(), loginRequest.getPassword()
             );
+
+            if (isAuthenticated) {
+                return ResponseEntity.ok(Map.of("message", "로그인 성공"));
+            } else {
+                return ResponseEntity.badRequest().body(Map.of("error", "로그인 실패"));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
-
-    @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody SignupRequest signupRequest) {
-        if (signupRequest.getPassword().length() < 6) {
-            return ResponseEntity.badRequest().body(
-                    Map.of("status", "error", "error", "비밀번호는 최소 6자 이상이어야 합니다.")
-            );
-        }
-
-        try {
-            Users savedUser = new Users(); // 저장된 사용자 반환
-            SignupRequest response = new SignupRequest();
-            response.setUserId(savedUser.getUserId());
-            response.setEmail(savedUser.getEmail());
-            response.setName(savedUser.getUsername());
-            response.setBirthdate(savedUser.getBirthdate());
-            response.setGender(savedUser.getGender());
-            response.setJoinDate(savedUser.getJoinDate());
-
-            return ResponseEntity.ok(Map.of("status", "success", "data", response));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(
-                    Map.of("status", "error", "error", e.getMessage())
-            );
-        }
-    }
-
 
     @GetMapping("/me")
     public ResponseEntity<?> getCurrentUser(@RequestHeader("Authorization") String token) {

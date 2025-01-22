@@ -11,7 +11,7 @@ const SignupForm = () => {
         email: "",
         name: "",
         gender: "",
-        birthdate: ""
+        birthdate: "",
     });
 
     const [showPassword, setShowPassword] = useState(false); // 비밀번호 보기 상태
@@ -43,12 +43,12 @@ const SignupForm = () => {
     const handleSignup = async (e) => {
         e.preventDefault();
         console.log("회원가입 요청 데이터:", form); // 폼 데이터 출력
-    
+
         if (form.password !== form.confirmPassword) {
             alert("비밀번호가 일치하지 않습니다.");
             return;
         }
-    
+
         try {
             const response = await axios.post(
                 "http://localhost:8080/api/users/signup", // 백엔드 URL
@@ -56,9 +56,6 @@ const SignupForm = () => {
             );
             console.log("응답 데이터:", response.data); // 성공 응답 확인
             alert("회원가입 성공!");
-    
-            // 여기서 navigate와 로그 실행
-            console.log("회원가입 성공, 로그인 페이지로 이동"); // 로그 출력
             navigate("/login"); // 로그인 페이지로 이동
         } catch (error) {
             if (error.response) {
@@ -72,99 +69,120 @@ const SignupForm = () => {
     };
 
     return (
-        <form onSubmit={handleSignup}>
-            <div>
-                <label>아이디:</label>
-                <input
-                    type="text"
-                    name="userId"
-                    value={form.userId}
-                    onChange={handleChange}
-                    placeholder="아이디를 입력하세요"
-                />
+        <div className="signup-page">
+            <div className="signup-header">
+                <h1>회원가입</h1>
             </div>
-            <div>
-                <label>비밀번호:</label>
-                <div style={{ display: "flex", alignItems: "center", position: "relative" }}>
-                    <input
-                        type={showPassword ? "text" : "password"} // 보기/숨기기 상태에 따라 type 변경
-                        name="password"
-                        value={form.password}
-                        onChange={handleChange}
-                        placeholder="비밀번호를 입력하세요"
-                        style={{ flex: 1 }}
-                    />
-                    <span
-                        onClick={toggleShowPassword}
-                        style={{
-                            position: "absolute",
-                            right: "10px",
-                            cursor: "pointer",
-                            color: "#007bff",
-                            userSelect: "none"
-                        }}
-                    >
-                        {showPassword ? "👁️" : "🙈"} {/* 아이콘 변경 */}
-                    </span>
-                </div>
+            <div className="signup-container">
+                <form className="signup-card" onSubmit={handleSignup}>
+                    <div className="form-group">
+                        <label htmlFor="userId">아이디:</label>
+                        <input
+                            id="userId"
+                            type="text"
+                            name="userId"
+                            value={form.userId}
+                            onChange={handleChange}
+                            placeholder="아이디를 입력하세요"
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="password">비밀번호:</label>
+                        <div className="id-check-wrapper">
+                            <input
+                                id="password"
+                                type={showPassword ? "text" : "password"}
+                                name="password"
+                                value={form.password}
+                                onChange={handleChange}
+                                placeholder="비밀번호를 입력하세요"
+                            />
+                            <button
+                                type="button"
+                                className="show-password-btn"
+                                onClick={toggleShowPassword}
+                            >
+                                {showPassword ? "👁️" : "🙈"}
+                            </button>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="confirmPassword">비밀번호 확인:</label>
+                        <input
+                            id="confirmPassword"
+                            type="password"
+                            name="confirmPassword"
+                            value={form.confirmPassword}
+                            onChange={handleChange}
+                            placeholder="비밀번호를 다시 입력하세요"
+                        />
+                        {passwordMessage && (
+                            <p
+                                className={`status-message ${
+                                    passwordMessage === "비밀번호가 일치합니다."
+                                        ? "valid"
+                                        : "error"
+                                }`}
+                            >
+                                {passwordMessage}
+                            </p>
+                        )}
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="email">이메일:</label>
+                        <input
+                            id="email"
+                            type="email"
+                            name="email"
+                            value={form.email}
+                            onChange={handleChange}
+                            placeholder="이메일을 입력하세요"
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="name">이름:</label>
+                        <input
+                            id="name"
+                            type="text"
+                            name="name"
+                            value={form.name}
+                            onChange={handleChange}
+                            placeholder="이름을 입력하세요"
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="gender">성별:</label>
+                        <select
+                            id="gender"
+                            name="gender"
+                            value={form.gender}
+                            onChange={handleChange}
+                        >
+                            <option value="">선택</option>
+                            <option value="male">남성</option>
+                            <option value="female">여성</option>
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="birthdate">생년월일:</label>
+                        <input
+                            id="birthdate"
+                            type="date"
+                            name="birthdate"
+                            value={form.birthdate}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <button className="btn" type="submit">
+                        회원가입
+                    </button>
+                </form>
             </div>
-            <div>
-                <label>비밀번호 확인:</label>
-                <input
-                    type="password"
-                    name="confirmPassword"
-                    value={form.confirmPassword}
-                    onChange={handleChange}
-                    placeholder="비밀번호를 다시 입력하세요"
-                />
-                {passwordMessage && (
-                    <p style={{ color: passwordMessage === "비밀번호가 일치합니다." ? "green" : "red" }}>
-                        {passwordMessage}
-                    </p>
-                )}
-            </div>
-            <div>
-                <label>이메일:</label>
-                <input
-                    type="email"
-                    name="email"
-                    value={form.email}
-                    onChange={handleChange}
-                    placeholder="이메일을 입력하세요"
-                />
-            </div>
-            <div>
-                <label>이름:</label>
-                <input
-                    type="text"
-                    name="name"
-                    value={form.name}
-                    onChange={handleChange}
-                    placeholder="이름을 입력하세요"
-                />
-            </div>
-            <div>
-                <label>성별:</label>
-                <select name="gender" value={form.gender} onChange={handleChange}>
-                    <option value="">선택</option>
-                    <option value="male">남성</option>
-                    <option value="female">여성</option>
-                </select>
-            </div>
-            <div>
-                <label>생년월일:</label>
-                <input
-                    type="date"
-                    name="birthdate"
-                    value={form.birthdate}
-                    onChange={handleChange}
-                />
+            <div className="signup-footer">
+                <p>🌟 새로운 시작을 함께 해봐요 🌟</p>
                 
             </div>
-            
-            <button type="submit">회원가입</button>
-        </form>
-        
+        </div>
     );
 };
 

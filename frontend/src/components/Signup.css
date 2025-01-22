@@ -201,3 +201,126 @@
   color: #555;
   font-size: 14px;
 }
+/* 반응형 디자인 - 작은 화면에서의 스타일 조정 */
+@media (max-width: 768px) {
+  .signup-card {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .signup-title {
+    font-size: 24px;
+    padding: 8px 16px;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+/* 애니메이션 추가 - 입력 필드 포커스 시 */
+input:focus, select:focus {
+  border-color: #ff6b6b;
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 107, 107, 0.8);
+  transition: box-shadow 0.3s, border-color 0.3s;
+}
+
+/* 버튼 애니메이션 */
+.btn {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(255, 107, 107, 0.5);
+}
+
+/* 에러 메시지 강조 */
+.status-message.error {
+  color: #ff4c4c;
+  font-weight: bold;
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+}
+
+/* 툴팁 스타일 */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* Tooltip 위에 표시 */
+  left: 50%;
+  margin-left: -100px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* 입력 그룹의 에러 상태 */
+.form-group.error input, .form-group.error select {
+  border-color: #ff4c4c;
+}
+
+.form-group.error label {
+  color: #ff4c4c;
+}
+
+/* 상단 제목 배경 애니메이션 */
+.signup-title {
+  background: linear-gradient(90deg, #ff6b6b, #ff9e9e);
+  animation: gradient-move 3s infinite alternate;
+}
+
+@keyframes gradient-move {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 100%;
+  }
+}
+
+/* 폼 섹션 간 간격 */
+.signup-card .form-group:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+/* 버튼 상태 */
+.btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}

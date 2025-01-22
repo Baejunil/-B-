@@ -4,6 +4,7 @@
   flex-direction: column;
   min-height: 100vh;
   font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #fbeff5, #ffffff); /* 배경에 그라데이션 추가 */
 }
 
 /* 상단 헤더 스타일 */
@@ -12,12 +13,18 @@
   padding: 20px 0;
   text-align: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center; /* 제목을 센터로 이동 */
+  align-items: center;
 }
 
 .login-header h1 {
   margin: 0;
   font-size: 28px;
   color: #ff6b6b;
+  font-weight: bold;
+  text-transform: uppercase; /* 텍스트 대문자로 변환 */
+  letter-spacing: 1px; /* 글자 간격 조정 */
 }
 
 /* 로그인 컨테이너 스타일 */
@@ -28,69 +35,98 @@
   align-items: center;
 }
 
+/* 카드 스타일 */
 .login-card {
   width: 350px;
   background-color: #fff;
-  padding: 20px;
+  padding: 30px;
   border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* 더 부드러운 그림자 */
   text-align: center;
+  position: relative;
+  transition: transform 0.2s ease-in-out; /* hover 애니메이션 */
+}
+
+.login-card:hover {
+  transform: scale(1.05); /* hover 시 크기 증가 */
 }
 
 /* 입력 그룹 스타일 */
 .input-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   text-align: left;
 }
 
 .input-group label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   font-weight: bold;
   color: #555;
 }
 
 .input-group input {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   border: 1px solid #ddd;
   border-radius: 5px;
   box-sizing: border-box;
+  font-size: 14px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-group input:focus {
+  border-color: #ff6b6b;
+  box-shadow: 0 0 5px rgba(255, 107, 107, 0.5);
+  outline: none;
 }
 
 /* 버튼 스타일 */
 button {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   background-color: #ff6b6b;
   color: white;
   border: none;
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 button:hover {
   background-color: #ff4c4c;
+  box-shadow: 0 4px 10px rgba(255, 76, 76, 0.3);
 }
 
-/* 링크 스타일 */
-p {
-  margin-top: 15px;
-  font-size: 14px;
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* 링크 버튼 스타일 */
+.link-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
 }
 
 .link-btn {
+  background-color: transparent;
   color: #007bff;
+  border: none;
   cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+  transition: color 0.3s, text-decoration 0.3s;
 }
 
 .link-btn:hover {
   text-decoration: underline;
+  color: #0056b3;
 }
 
-/* 하단 푸터 스타일 */
+/* 하단 푸터 */
 .login-footer {
   background-color: #fbeff5;
   padding: 10px 0;
@@ -102,4 +138,34 @@ p {
   margin: 0;
   color: #555;
   font-size: 14px;
+}
+
+/* 상태 메시지 스타일 */
+.status-message {
+  font-size: 14px;
+  margin-top: 10px;
+  color: #ff6b6b;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+  .login-card {
+    width: 90%;
+    padding: 20px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 12px;
+  }
 }
