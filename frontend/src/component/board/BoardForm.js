@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function BoardForm() {
   const [title, setTitle] = useState('');
@@ -53,6 +53,9 @@ function BoardForm() {
         />
       </div>
       <button type="submit">작성</button>
+      <Link to={"/board"}>
+        <button>돌아가기</button>
+      </Link>
     </form>
   );
 }

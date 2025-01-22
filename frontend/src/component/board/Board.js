@@ -20,7 +20,7 @@ function Board() {
       <div>
         <h1>게시판</h1>
         <BoardList boards={boards} />
-        <Link to="board/create">
+        <Link to="/board/create">
             <button>작성</button>
         </Link>
       </div>
