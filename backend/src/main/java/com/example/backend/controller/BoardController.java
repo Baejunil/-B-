@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.backend.dto.Board;
+import com.example.backend.dto.Diary;
 import com.example.backend.service.BoardService;
 
 
@@ -34,4 +36,10 @@ public class BoardController {
 		return boardService.getAllBoards();
 	}
 	
+	
+	// 특정 게시판 조회 (GET 요청)
+    @GetMapping("/{id}")
+    public Board getDiary(@PathVariable Long id) {
+    	return boardService.getBoard(id);
+    }
 }

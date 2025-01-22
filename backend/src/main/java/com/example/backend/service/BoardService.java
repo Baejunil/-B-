@@ -23,4 +23,12 @@ public class BoardService {
 		 return boardRepository.findAll();
 		 
 	 }
+	 
+	 // 특정 게시판 조회
+	 public Board getBoard(Long id) {
+		 	Board board = boardRepository.findById(id)
+	                .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다."));
+		 	board.setViewCount(board.getViewCount() + 1);
+	        return boardRepository.save(board);
+	    }
 }
