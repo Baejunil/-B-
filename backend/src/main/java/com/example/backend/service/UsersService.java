@@ -1,25 +1,27 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.LoginRequest;
 import com.example.backend.dto.SignupRequest;
 import com.example.backend.dto.Users;
 import com.example.backend.repository.UsersRepository;
-
-import java.util.Date;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.backend.security.JwtProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
+@RequiredArgsConstructor
 public class UsersService {
 
-    @Autowired
-    private UsersRepository userRepository;
+    private final UsersRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtProvider jwtProvider;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
+    /**
+     * 회원가입 처리
+     */
     public void registerUser(SignupRequest signupRequest) {
         if (userRepository.existsByUserId(signupRequest.getUserId())) {
             throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
@@ -29,30 +31,38 @@ public class UsersService {
         user.setUserId(signupRequest.getUserId());
         user.setPassword(passwordEncoder.encode(signupRequest.getPassword())); // 비밀번호 암호화
         user.setEmail(signupRequest.getEmail());
-        user.setUsername(signupRequest.getName()); // name → username 매핑
+        user.setUsername(signupRequest.getName());
         user.setBirthdate(signupRequest.getBirthdate());
         user.setGender(signupRequest.getGender());
-        user.setJoinDate(new Date()); // 가입일 자동 설정
 
         userRepository.save(user);
     }
 
-
-    public boolean authenticate(String userId, String rawPassword) {
-        Users user = userRepository.findByUserId(userId)
-                .orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다."));
-
-        // 입력된 비밀번호와 암호화된 비밀번호 비교
-        if (!passwordEncoder.matches(rawPassword, user.getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+    /**
+     * 로그인 및 JWT 생성
+     */
+    public String loginAndGenerateToken(LoginRequest loginRequest) {
+    	
+        Optional<Users> userOpt = userRepository.findByUserId(loginRequest.getUserId());
+        if (userOpt.isEmpty()) {
+            throw new IllegalArgumentException("존재하지 않는 사용자입니다.");
         }
-
-        return true; // 인증 성공
+        Users user = userOpt.get();
+        
+        // 비밀번호 검증
+        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {      	
+            throw new IllegalArgumentException("비밀번호가 올바르지 않습니다.");
+        }
+        
+        // JWT 생성
+        return jwtProvider.generateToken(user.getUserId());
     }
+
+    /**
+     * 사용자 ID로 사용자 정보 조회
+     */
     public Users getUserById(String userId) {
-        Optional<Users> user = userRepository.findByUserId(userId);
-        return user.orElseThrow(() -> 
-            new IllegalArgumentException("해당 ID의 사용자를 찾을 수 없습니다.")
-        );
+        return userRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자를 찾을 수 없습니다."));
     }
 }

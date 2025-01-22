@@ -1,46 +1,42 @@
 package com.example.backend.security;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.stereotype.Component;
-
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 
-@Component
 public class JwtProvider {
 
-    private final Key secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private final long validityInMilliseconds = 3600000;
+    private static final String SECRET_KEY = Base64.getEncoder().encodeToString("your-secure-secret-key-with-at-least-256-bits".getBytes());
+    private static final long EXPIRATION_TIME = 1000 * 60 * 60; // 1시간
 
-    public String createToken(String userId) {
-        Date now = new Date();
-        Date validity = new Date(now.getTime() + validityInMilliseconds);
-
+    public String generateToken(String userId) {
+        Key key = getSigningKey();
         return Jwts.builder()
                 .setSubject(userId)
-                .setIssuedAt(now)
-                .setExpiration(validity)
-                .signWith(secretKey)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public String getUserIdFromToken(String token) {
+    public Claims validateToken(String token) {
+        Key key = getSigningKey();
         return Jwts.parserBuilder()
-                .setSigningKey(secretKey)
+                .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+                .getBody();
     }
+
+    private Key getSigningKey() {
+        byte[] secretKeyBytes = Base64.getDecoder().decode(SECRET_KEY);
+        return Keys.hmacShaKeyFor(secretKeyBytes);
+    }
+
+
+	
 }

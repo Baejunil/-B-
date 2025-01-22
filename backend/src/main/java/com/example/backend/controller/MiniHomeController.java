@@ -15,6 +15,7 @@ public class MiniHomeController {
 
     /**
      * 특정 userId를 가진 사용자의 미니홈 정보 조회
+     *
      * @param userId : 조회할 유저 ID
      * @return MiniHome 정보가 있으면 200 OK, 없으면 404 NOT FOUND
      */
@@ -24,7 +25,25 @@ public class MiniHomeController {
         if (miniHome == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(miniHome); 
-        // miniHome -> JSON 변환 시, user 필드(Users)도 함께 직렬화
+        return ResponseEntity.ok(miniHome);
+    }
+
+    /**
+     * MiniHome 생성
+     */
+    @PostMapping
+    public ResponseEntity<MiniHome> createMiniHome(@RequestBody MiniHome miniHome) {
+        MiniHome createdMiniHome = miniHomeService.createMiniHome(miniHome);
+        return ResponseEntity.status(201).body(createdMiniHome);
+    }
+
+    /**
+     * MiniHome 수정
+     */
+    @PutMapping("/{userId}")
+    public ResponseEntity<MiniHome> updateMiniHome(@PathVariable String userId, @RequestBody MiniHome miniHome) {
+        miniHome.setUserId(userId); // PathVariable로 받은 userId 설정
+        MiniHome updatedMiniHome = miniHomeService.updateMiniHome(miniHome);
+        return ResponseEntity.ok(updatedMiniHome);
     }
 }

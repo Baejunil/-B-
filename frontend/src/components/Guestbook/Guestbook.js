@@ -52,7 +52,7 @@ function Guestbook() {
       await axios.post("http://localhost:8080/api/guestbook", { message: newEntry });
       setGuestbookEntries([]); // 기존 데이터 초기화
       setPage(0); // 첫 페이지부터 다시 불러오기
-      setNewEntry(""); // 입력 필드 초기화
+      setNewEntry(""); // 입력 필드 초기화  
     } catch (error) {
       console.error("Failed to post guestbook entry:", error);
       setError(error.response?.data?.error || "Failed to add entry. Please try again.");

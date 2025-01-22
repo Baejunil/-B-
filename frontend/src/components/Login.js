@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // 페이지 이동을 위한 useNavigate 훅
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./Login.css"; // CSS 파일을 연결
+import "./Login.css";
 
 const LoginForm = () => {
   const [form, setForm] = useState({ userId: "", password: "" });
-  const navigate = useNavigate(); // 페이지 이동을 위한 훅
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -13,26 +15,26 @@ const LoginForm = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // 기본 폼 제출 동작 방지
+    e.preventDefault();
 
     try {
       const response = await axios.post("http://localhost:8080/api/users/login", form);
 
-      // 서버가 반환한 응답 확인
-      if (response.data && response.data.message) {
-        alert(response.data.message); // 성공 메시지 표시
-        navigate("/home"); // 로그인 성공 시 홈으로 이동
-      } else {
-        alert("서버 응답 형식이 올바르지 않습니다.");
-      }
+      // 서버에서 반환된 JWT를 저장
+      const token = response.data.token; // 로그인 성공 시 반환된 JWT
+      localStorage.setItem("token", token); // JWT를 LocalStorage에 저장
+console.log(localStorage)
+      alert(response.data.message); // 로그인 성공 메시지
+      navigate("/home"); // 로그인 후 홈 페이지로 이동
     } catch (error) {
       // 에러 처리
-      if (error.response && error.response.data && error.response.data.error) {
-        alert(error.response.data.error); // 에러 메시지 표시
-      } else {
-        alert("예상치 못한 에러가 발생했습니다.");
-      }
+      console.error("로그인 오류:", error.response?.data?.message || error.message);
+      setErrorMessage(error.response?.data?.error || "로그인에 실패했습니다.");
     }
+  };
+
+  const toggleShowPassword = () => {
+    setShowPassword((prev) => !prev);
   };
 
   return (
@@ -56,15 +58,25 @@ const LoginForm = () => {
             </div>
             <div className="input-group">
               <label htmlFor="password">비밀번호</label>
-              <input
-                id="password"
-                type="password"
-                name="password"
-                placeholder="비밀번호"
-                value={form.password}
-                onChange={handleChange}
-              />
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="비밀번호"
+                  value={form.password}
+                  onChange={handleChange}
+                />
+                <button
+                  type="button"
+                  className="show-password-btn"
+                  onClick={toggleShowPassword}
+                >
+                  {showPassword ? "숨기기" : "보기"}
+                </button>
+              </div>
             </div>
+            {errorMessage && <div className="error-message">{errorMessage}</div>}
             <button type="submit">로그인</button>
           </form>
           <div className="link-buttons">
@@ -81,10 +93,10 @@ const LoginForm = () => {
         </div>
       </div>
       <footer className="login-footer">
-        <p>로그인 문제가 있으신가요? <span className="link-btn">문의하기</span>
-        🌟 행복한 하루 되세요! 🌟</p>
-        
-
+        <p>
+          로그인 문제가 있으신가요? <span className="link-btn">문의하기</span>
+          🌟 행복한 하루 되세요! 🌟
+        </p>
       </footer>
     </div>
   );
