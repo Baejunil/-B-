@@ -1,21 +1,20 @@
 package com.example.backend.dto;
 
-import java.util.Date;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.Date;
 
 @Entity
 @Getter
 @Setter
 @ToString
 public class Users {
+
     @Id
     private String userId;
 
@@ -26,13 +25,13 @@ public class Users {
     private String password;
 
     @Column(nullable = false)
-    private String username;
+    private String username; // 수정: username 필드 추가
 
-    @Temporal(TemporalType.DATE)
-    private Date joinDate; 
-    
-    @Temporal(TemporalType.DATE)
-    private String birthdate;
-
+    @Column(nullable = false)
     private String gender;
+
+    @Column(nullable = false)
+    private Date birthdate;
+
+    private Date joinDate; // 자동 생성 가능
 }

@@ -1,17 +1,13 @@
 package com.example.backend.controller;
 
-import java.util.Map;
-
+import com.example.backend.dto.Users;
+import com.example.backend.dto.LoginRequest;
+import com.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.example.backend.dto.LoginRequest;
-import com.example.backend.dto.Users;
-import com.example.backend.service.UserService;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -34,8 +30,7 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         try {
             boolean isAuthenticated = userService.authenticate(
-                    loginRequest.getUserId(),
-                    loginRequest.getPassword()
+                    loginRequest.getUserId(), loginRequest.getPassword()
             );
 
             if (isAuthenticated) {

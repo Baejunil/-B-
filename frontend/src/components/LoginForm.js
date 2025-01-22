@@ -11,6 +11,7 @@ const LoginForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault(); // 기본 폼 제출 동작 방지
+        console.log("로그인 요청 데이터:", form); // 폼 데이터 출력
 
         try {
             const response = await axios.post("http://localhost:8080/api/users/login", form);

@@ -1,8 +1,10 @@
 package com.example.backend.service;
 
-import com.example.backend.dto.SignupRequest;
 import com.example.backend.dto.Users;
 import com.example.backend.repository.UserRepository;
+
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,34 +23,24 @@ public class UserService {
             throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
         }
 
-		/*
-		 * if (!signupRequest.getPassword().equals(user.getConfirmPassword())) { throw
-		 * new IllegalArgumentException("비밀번호가 일치하지 않습니다."); }
-		 */
+        // 비밀번호 암호화
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        // SignupRequest 데이터를 User 엔티티로 변환
-		/*
-		 * Users user = new Users(); user.setUserId(signupRequest.getUserId());
-		 * user.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
-		 * user.setEmail(signupRequest.getEmail());
-		 * user.setUsername(signupRequest.getName());
-		 * user.setGender(signupRequest.getGender());
-		 * user.setBirthdate(signupRequest.getBirthdate());
-		 * user.setJoinDate(signupRequest.getJoinDate());
-		 * System.out.println("join Date :"+signupRequest.getJoinDate());
-		 * System.out.println("Gender :"+signupRequest.getGender());
-		 */
-        userRepository.save(user); // 데이터베이스에 저장
+   
+        user.setJoinDate(new Date()); // 가입일 자동 설정
+        userRepository.save(user); // 데이터베이스 저장
     }
 
     public boolean authenticate(String userId, String rawPassword) {
         Users user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다."));
 
-        if (!passwordEncoder.matches(rawPassword, user.getPassword())) {
+        // 입력된 비밀번호와 DB 비밀번호 비교
+        if (!rawPassword.equals(user.getPassword())) { 
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
         return true;
     }
 }
+
