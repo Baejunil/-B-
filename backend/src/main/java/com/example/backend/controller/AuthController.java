@@ -23,14 +23,15 @@ public class AuthController {
     private final JwtProvider jwtProvider;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody Users user) {
+    public ResponseEntity<?> signup(@RequestBody SignupRequest signupRequest) {
         try {
-            userService.registerUser(user);
+            userService.registerUser(signupRequest); // SignupRequest 전달
             return ResponseEntity.ok(Map.of("message", "회원가입 성공"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
+
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
@@ -42,12 +43,13 @@ public class AuthController {
             if (isAuthenticated) {
                 return ResponseEntity.ok(Map.of("message", "로그인 성공"));
             } else {
-                return ResponseEntity.badRequest().body(Map.of("error", "로그인 실패"));
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "로그인 실패"));
             }
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
+
 
     @GetMapping("/me")
     public ResponseEntity<?> getCurrentUser(@RequestHeader("Authorization") String token) {

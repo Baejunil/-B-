@@ -3,7 +3,6 @@ package com.example.backend.dto;
 import java.util.Date;
 
 public class UserDto {
-
     private String userId;
     private String email;
     private String password;
@@ -11,6 +10,7 @@ public class UserDto {
     private Date birthDate;
     private String gender;
 
+    // Constructors, Getters, and Setters
     public UserDto() {}
 
     public UserDto(String userId, String email, String password, String name, Date birthDate, String gender) {
@@ -38,7 +38,9 @@ public class UserDto {
     public void setBirthDate(Date birthDate) { this.birthDate = birthDate; }
     public void setGender(String gender) { this.gender = gender; }
 
-    public String getUsername() {
-        return name; // 이름을 username으로 사용
-    }
+	public Object getUsername() {
+		// TODO Auto-generated method stub
+		return null;
+
+	}
 }
