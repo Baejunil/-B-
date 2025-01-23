@@ -1,6 +1,8 @@
 import React from "react";
 
-function Profile({ user }) {
+function Profile({ user, miniHomeData }) {
+  console.log(user)
+
   if (!user) {
     return <div>사용자 정보를 불러오는 중입니다...</div>;
   }
@@ -13,9 +15,9 @@ function Profile({ user }) {
 
         {/* 프로필 정보 */}
         <div className="profile-info">
-          <p>😀 유저명: {user.username || "정보 없음"}</p>
-          <p>🎉 가입일: {user.joinDate ? user.joinDate.substring(0, 10) : "정보 없음"}</p>
-          <p>✉ 이메일: {user.email || "정보 없음"}</p>
+          <p>😀 유저명: {user.data.username|| "정보 없음"}</p>
+          <p>🎉 가입일: {user.data.joinDate ? user.data.joinDate.substring(0, 10) : "정보 없음"}</p>
+          <p>✉ 이메일: {user.data.email || "정보 없음"}</p>
         </div>
 
         {/* 기분 선택 */}
@@ -28,7 +30,12 @@ function Profile({ user }) {
             <option>설렘 💖</option>
           </select>
         </div>
-
+        {/* 추가적으로 미니홈 데이터를 렌더링 */}
+      <div>
+        <h1>{miniHomeData.background || "미니홈 제목 없음"}</h1>
+        <p>{miniHomeData.description || "설명이 없습니다."}</p>
+        {/* 필요한 추가 데이터 렌더링 */}
+      </div>
         {/* 음악 */}
         <div className="music">
           <audio controls autoPlay loop>

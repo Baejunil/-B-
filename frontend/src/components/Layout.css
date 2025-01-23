@@ -27,6 +27,7 @@
   box-shadow: inset -2px 0 4px rgba(0, 0, 0, 0.05);
   height: calc(100vh - 60px); /* 헤더와 푸터를 제외한 높이 */
   overflow: hidden; /* 스크롤 제거 */
+  width: 250px;
 }
 
 /* 프로필 섹션 */
@@ -94,15 +95,14 @@
 /* Footer 영역 (오디오) */
 .music {
   display: block; /* 오디오 플레이어 강제 표시 */
-  background-color: #ffccff;
-  padding: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 10px;
-  margin-top: auto; /* 하단 고정 */
-  width: 100%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding-top:  40%;
+  margin-bottom: auto; /* 하단 고정 */
+  width: 80%;
+  
+  
 }
 
 .music audio {

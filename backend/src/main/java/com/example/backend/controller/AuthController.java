@@ -22,6 +22,8 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest signupRequest) {
+    	System.out.println("signupRequest----------------"+signupRequest.getJoinDate());
+    	
         try {
             userService.registerUser(signupRequest); // SignupRequest 전달
             return ResponseEntity.ok(Map.of("message", "회원가입 성공"));

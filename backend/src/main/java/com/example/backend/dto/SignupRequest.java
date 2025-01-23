@@ -19,4 +19,6 @@ public class SignupRequest {
     private String name; // 이름
     private Date birthdate;
     private String gender;
+    private Date joinDate;
 }
+

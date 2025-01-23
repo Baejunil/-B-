@@ -5,6 +5,9 @@ function MiniHomePage() {
   const [miniHomeData, setMiniHomeData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null); // 에러 상태 추가
+  //const [currentUser, setCurrentUser] = useState(null);
+
+
 
   useEffect(() => {
     const fetchUserAndMiniHome = async () => {
@@ -31,10 +34,13 @@ function MiniHomePage() {
         }
 
         const currentUser = await userResponse.json();
+        //setCurrentUser(userData.data)
 
+        //console.log(`currentUser값---------->${userData.data} `)
+        //console.log(currentUser.userId)
         // 로그인한 사용자 미니홈 정보 가져오기
         const miniHomeResponse = await fetch(
-          `http://localhost:8080/api/minihome/${currentUser.userId}`,
+          `http://localhost:8080/api/minihome/${currentUser.data.userId}`,
           {
             method: "GET",
             headers: {
@@ -74,6 +80,8 @@ function MiniHomePage() {
 
     fetchUserAndMiniHome();
   }, []);
+  
+    console.log(miniHomeData)
 
   if (loading) return <div>데이터를 불러오는 중입니다...</div>;
   if (error) return <div>{error}</div>; // 에러 메시지 표시
@@ -83,13 +91,8 @@ function MiniHomePage() {
   return (
     <div style={{ display: "flex" }}>
       {/* Profile 컴포넌트로 miniHomeData의 user 전달 */}
-      <Profile user={miniHomeData.user} />
-      {/* 추가적으로 미니홈 데이터를 렌더링 */}
-      <div>
-        <h1>{miniHomeData.title || "미니홈 제목 없음"}</h1>
-        <p>{miniHomeData.description || "설명이 없습니다."}</p>
-        {/* 필요한 추가 데이터 렌더링 */}
-      </div>
+      <Profile user={miniHomeData.user} miniHomeData={miniHomeData} />
+      
     </div>
   );
 }

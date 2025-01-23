@@ -67,13 +67,19 @@ console.log(localStorage)
                   value={form.password}
                   onChange={handleChange}
                 />
-                <button
-                  type="button"
-                  className="show-password-btn"
-                  onClick={toggleShowPassword}
-                >
-                  {showPassword ? "숨기기" : "보기"}
-                </button>
+                <span
+                
+                        onClick={toggleShowPassword}
+                        style={{
+                            position: "absolute",
+                            right: "10px",
+                            cursor: "pointer",
+                            color: "#007bff",
+                            userSelect: "none"
+                        }}
+                    >
+                        {showPassword ? "👁️" : "🙈"} {/* 아이콘 변경 */}
+                    </span>
               </div>
             </div>
             {errorMessage && <div className="error-message">{errorMessage}</div>}
@@ -94,7 +100,7 @@ console.log(localStorage)
       </div>
       <footer className="login-footer">
         <p>
-          로그인 문제가 있으신가요? <span className="link-btn">문의하기</span>
+          
           🌟 행복한 하루 되세요! 🌟
         </p>
       </footer>

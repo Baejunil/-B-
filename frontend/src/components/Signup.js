@@ -12,6 +12,7 @@ const SignupForm = () => {
         name: "",
         gender: "",
         birthdate: "",
+        joinDate: new Date(),
     });
 
     const [showPassword, setShowPassword] = useState(false); // 비밀번호 보기 상태
@@ -88,23 +89,28 @@ const SignupForm = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="password">비밀번호:</label>
-                        <div className="id-check-wrapper">
-                            <input
-                                id="password"
-                                type={showPassword ? "text" : "password"}
-                                name="password"
-                                value={form.password}
-                                onChange={handleChange}
-                                placeholder="비밀번호를 입력하세요"
-                            />
-                            <button
-                                type="button"
-                                className="show-password-btn"
-                                onClick={toggleShowPassword}
-                            >
-                                {showPassword ? "👁️" : "🙈"}
-                            </button>
-                        </div>
+                        <div style={{ display: "flex", alignItems: "center", position: "relative" }}>
+                    <input
+                        type={showPassword ? "text" : "password"} // 보기/숨기기 상태에 따라 type 변경
+                        name="password"
+                        value={form.password}
+                        onChange={handleChange}
+                        placeholder="비밀번호를 입력하세요"
+                        style={{ flex: 1 }}
+                    />
+                    <span
+                        onClick={toggleShowPassword}
+                        style={{
+                            position: "absolute",
+                            right: "10px",
+                            cursor: "pointer",
+                            color: "#007bff",
+                            userSelect: "none"
+                        }}
+                    >
+                        {showPassword ? "👁️" : "🙈"} {/* 아이콘 변경 */}
+                    </span>
+                </div>
                     </div>
                     <div className="form-group">
                         <label htmlFor="confirmPassword">비밀번호 확인:</label>
