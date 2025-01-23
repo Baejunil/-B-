@@ -44,6 +44,17 @@ public class UserController {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage())); // 에러 메시지 반환
         }
     }
+    // 아이디찾기 API
+    @PostMapping("/find-id")
+    public ResponseEntity<?> findUserId(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        try {
+            String userId = userService.findUserIdByEmail(email);
+            return ResponseEntity.ok(Map.of("userId", userId));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
 
     // 비밀번호 찾기 API 추가
     @PostMapping("/find-password")
