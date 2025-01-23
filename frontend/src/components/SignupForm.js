@@ -43,7 +43,7 @@ const SignupForm = () => {
 
     const handleSignup = async (e) => {
         e.preventDefault();
-        console.log("회원가입 요청 데이터:", form); // 폼 데이터 출력
+        console.log("회원가입 요청 데이터:", form);
     
         if (form.password !== form.confirmPassword) {
             alert("비밀번호가 일치하지 않습니다.");
@@ -52,18 +52,16 @@ const SignupForm = () => {
     
         try {
             const response = await axios.post(
-                "http://localhost:8080/api/users/signup", // 백엔드 URL
-                form // 요청 데이터
+                "http://localhost:8080/api/users/signup",
+                form,
+                { withCredentials: true } // CORS 허용
             );
-            console.log("응답 데이터:", response.data); // 성공 응답 확인
+            console.log("응답 데이터:", response.data);
             alert("회원가입 성공!");
-    
-            // 여기서 navigate와 로그 실행
-            console.log("회원가입 성공, 로그인 페이지로 이동"); // 로그 출력
-            navigate("/login"); // 로그인 페이지로 이동
+            navigate("/login");
         } catch (error) {
             if (error.response) {
-                console.error("에러 응답:", error.response.data); // 서버 에러 로그
+                console.error("에러 응답:", error.response.data);
                 alert(error.response.data.error || "회원가입 실패");
             } else {
                 console.error("요청 에러:", error.message);
@@ -138,8 +136,8 @@ const SignupForm = () => {
                 <label>이름:</label>
                 <input
                     type="text"
-                    name="name"
-                    value={form.name}
+                    name="username"
+                    value={form.username}
                     onChange={handleChange}
                     placeholder="이름을 입력하세요"
                 />

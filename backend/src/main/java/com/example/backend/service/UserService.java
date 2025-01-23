@@ -28,7 +28,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         
-        user.setJoinDate(new Date()); // 가입일 자동 설정
+        //user.setJoinDate(new Date()); // 가입일 자동 설정
         userRepository.save(user); // 데이터베이스 저장
     }
 
@@ -73,7 +73,5 @@ public class UserService {
         userRepository.save(user);
     }
 }
-   
-
 
 

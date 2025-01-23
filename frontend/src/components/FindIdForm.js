@@ -1,55 +1,56 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const FindIdForm = () => {
-    const [email, setEmail] = useState("");
-    const [userId, setUserId] = useState(""); // 찾은 아이디 저장
-    const [errorMessage, setErrorMessage] = useState(""); // 에러 메시지 저장
+const LoginForm = () => {
+    const [form, setForm] = useState({ userId: "", password: "" });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setForm({ ...form, [name]: value });
+    };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        setErrorMessage(""); // 이전 에러 메시지 초기화
-        setUserId(""); // 이전 아이디 초기화
+        e.preventDefault(); // 기본 폼 제출 동작 방지
+        console.log("로그인 요청 데이터:", form); // 폼 데이터 출력
 
         try {
-            const response = await axios.post("http://localhost:8080/api/users/find-id", { email });
-            setUserId(response.data.userId); // 성공 시 아이디 저장
+            const response = await axios.post("http://localhost:8080/api/users/login", form);
+
+            // 서버가 반환한 응답 확인
+            if (response.data && response.data.message) {
+                alert(response.data.message); // 성공 메시지 표시
+            } else {
+                alert("서버 응답 형식이 올바르지 않습니다.");
+            }
         } catch (error) {
-            setErrorMessage(
-                error.response?.data?.error || "아이디 찾기 실패"
-            ); // 에러 메시지 설정
+            // 에러 처리
+            if (error.response && error.response.data && error.response.data.error) {
+                alert(error.response.data.error); // 에러 메시지 표시
+            } else {
+                alert("예상치 못한 에러가 발생했습니다.");
+            }
         }
     };
 
     return (
-        <div>
-            <h2>아이디 찾기</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>이메일:</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="가입한 이메일을 입력하세요"
-                        required
-                    />
-                </div>
-                <button type="submit">아이디 찾기</button>
-            </form>
-            {userId && (
-                <div>
-                    <h3>찾은 아이디:</h3>
-                    <p>{userId}</p>
-                </div>
-            )}
-            {errorMessage && (
-                <div style={{ color: "red" }}>
-                    <p>{errorMessage}</p>
-                </div>
-            )}
-        </div>
+        <form onSubmit={handleSubmit}>
+            <input
+                type="text"
+                name="userId"
+                placeholder="아이디"
+                value={form.userId}
+                onChange={handleChange}
+            />
+            <input
+                type="password"
+                name="password"
+                placeholder="비밀번호"
+                value={form.password}
+                onChange={handleChange}
+            />
+            <button type="submit">로그인</button>
+        </form>
     );
 };
 
-export default FindIdForm;
+export default LoginForm;
