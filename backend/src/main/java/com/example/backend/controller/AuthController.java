@@ -45,15 +45,12 @@ public class AuthController {
     	
     	
         try {
-        	System.out.println("--------오류화인-----------------------");
-            String token = userService.loginAndGenerateToken(loginRequest);
-            System.out.println("--------오류화인-----------------------");
+            String token = userService.loginAndGenerateToken(loginRequest);        
             return ResponseEntity.ok(Map.of("message", "로그인 성공", "token", token));
-        } catch (Exception e) {
-        	
-        	System.out.println("catch 문------------------------------");
+        } catch (Exception e)  {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
+        
     }
 
     @GetMapping("/me")
