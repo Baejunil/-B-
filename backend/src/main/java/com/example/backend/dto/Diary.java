@@ -24,9 +24,8 @@ public class Diary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long diaryId;
 
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    private Users user;
+    
+    private Users userId;
 
     private String title;
 
