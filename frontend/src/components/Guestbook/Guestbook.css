@@ -1,12 +1,13 @@
 .guestbook-container {
   padding: 20px;
-  background-color: #f9fafb;
+  background-color: #e6f7ff; /* 게시판 배경 색과 동일하게 수정 */
   max-width: 600px;
   margin: 0 auto;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+/* 헤더 부분 */
 .guestbook-header h1 {
   font-size: 24px;
   margin-bottom: 10px;
@@ -18,22 +19,25 @@
   color: #666;
 }
 
+/* 입력 폼 */
 .guestbook-form {
   display: flex;
-  margin-bottom: 20px;
+  flex-direction: column; /* 게시판 폼처럼 세로 정렬 */
   gap: 10px;
+  margin-bottom: 20px;
 }
 
-.guestbook-form input {
-  flex: 1;
+.guestbook-form input,
+.guestbook-form textarea { /* 게시판 폼 스타일에 맞춤 */
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
 
 .guestbook-form button {
+  align-self: flex-end; /* 오른쪽 정렬 */
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #17a2b8; /* 게시판 버튼 색상과 동일 */
   color: white;
   border: none;
   border-radius: 5px;
@@ -41,30 +45,57 @@
 }
 
 .guestbook-form button:hover {
-  background-color: #0056b3;
+  background-color: #138496;
 }
 
+/* 방명록 목록 */
 .guestbook-entries {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px; /* 게시판과 동일한 간격 */
 }
 
+/* 방명록 항목 */
 .guestbook-entry {
   padding: 15px;
-  background-color: white;
+  background-color: #fff; /* 항목 배경색 동일 */
   border-radius: 5px;
   border: 1px solid #ddd;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05); /* 약간의 그림자 추가 */
+  position: relative;
 }
 
+/* 작성 날짜 */
 .guestbook-date {
-  font-size: 12px;
-  color: #888;
+  font-size: 0.8rem;
+  color: #666;
   margin-top: 5px;
 }
 
+/* 로딩 상태 */
 .loading-indicator {
   text-align: center;
   margin-top: 20px;
   color: #555;
 }
+
+.delete-button {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  font-size: 0.5rem; /* 작은 글자 크기 */
+  padding: 2px 4px;  /* 작은 패딩 */
+  width: auto;       /* 텍스트에 맞는 크기로 조정 */
+  display: inline-block; /* 텍스트 길이에 따라 크기 조정 */
+  cursor: pointer;
+  border: none;
+  background-color: #ff7777;
+  color: #fff;
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+  white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+
+.delete-button:hover {
+  background-color: #ff4f4f;
+} 

@@ -1,9 +1,9 @@
-// FindIdForm.js
+// Findld.js
 import React, { useState } from "react";
 import axios from "axios";
 import "./FindForm.css";
 
-const FindIdForm = () => {
+const Findld = () => {
   const [email, setEmail] = useState("");
 
   const handleSubmit = async (e) => {
@@ -38,4 +38,4 @@ const FindIdForm = () => {
   );
 };
 
-export default FindIdForm;
+export default Findld;

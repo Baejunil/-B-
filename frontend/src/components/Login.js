@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Login.css";
 
-const LoginForm = () => {
+const Login = () => {
   const [form, setForm] = useState({ userId: "", password: "" });
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -108,4 +108,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default Login;

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./FindForm.css";
 
-const FindPasswordForm = () => {
+const ResetPassword = () => {
   const [email, setEmail] = useState("");
 
   const handleSubmit = async (e) => {
@@ -38,4 +38,4 @@ const FindPasswordForm = () => {
   );
 };
 
-export default FindPasswordForm;
+export default ResetPassword;

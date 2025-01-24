@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"; // useNavigate 훅 추가
 import axios from "axios";
 import "./Signup.css";
 
-const SignupForm = () => {
+const Signup = () => {
     const [form, setForm] = useState({
         userId: "",
         password: "",
@@ -192,4 +192,4 @@ const SignupForm = () => {
     );
 };
 
-export default SignupForm;
+export default Signup;

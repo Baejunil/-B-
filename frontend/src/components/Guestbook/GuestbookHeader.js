@@ -3,8 +3,8 @@ import React from "react";
 function GuestbookHeader() {
   return (
     <div className="guestbook-header">
-      <h1>Guestbook</h1>
-      <p>Leave your valuable message below!</p>
+      <h1>방명록</h1>
+      <p>한마디~</p>
     </div>
   );
 }

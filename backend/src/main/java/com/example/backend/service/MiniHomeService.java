@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.*;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -70,10 +69,10 @@ public class MiniHomeService {
     }
 
     /**
-     * [추가] 실제 파일 저장 로직
+     * [수정] 실제 파일 저장 로직
      *
      * @param file 업로드할 MultipartFile
-     * @return 저장된 파일의 URL
+     * @return 저장된 파일의 전체 URL (ex: http://localhost:8080/uploads/...)
      */
     @Transactional
     public String uploadFile(MultipartFile file) {
@@ -92,8 +91,9 @@ public class MiniHomeService {
             // 파일 복사(이미 동일 이름의 파일이 있으면 덮어씀)
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
-            // 반환할 파일 URL (실서버에선 도메인 포함해서 생성하는 것이 일반적)
-            return "/uploads/" + fileName;
+            // 절대 경로 예: "http://localhost:8080/uploads/파일명"
+            // 운영 환경에서는 "https://도메인/uploads/파일명"으로 변경 필요
+            return "http://localhost:8080/uploads/" + fileName;
         } catch (IOException e) {
             throw new RuntimeException("파일 업로드 중 오류가 발생했습니다.", e);
         }
