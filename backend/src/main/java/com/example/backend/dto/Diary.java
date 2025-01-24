@@ -25,7 +25,7 @@ public class Diary {
     private Long diaryId;
 
     
-    private Users userId;
+    private String userId;
 
     private String title;
 
