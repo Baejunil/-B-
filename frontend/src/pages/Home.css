@@ -1,0 +1,52 @@
+.home-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    background-color: #e6f7ff;
+    border-radius: 10px;
+  }
+  
+  /* 뉴스 섹션 스타일 */
+  .news-section {
+    width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .news-section h2 {
+    margin-bottom: 10px;
+  }
+  
+  .news-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .news-section ul li {
+    margin-bottom: 5px;
+  }
+  
+  .news-section .tag {
+    display: inline-block;
+    background-color: #ff6b6b;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+  
+  /* BGM 테이블 스타일 */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  table, th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  

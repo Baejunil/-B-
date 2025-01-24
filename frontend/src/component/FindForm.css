@@ -1,0 +1,76 @@
+/* 공통 컨테이너 스타일 */
+.find-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #fbeff5, #ffffff);
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  
+  /* 제목 스타일 */
+  .find-form-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #ff6b6b;
+    margin-bottom: 20px;
+  }
+  
+  /* 폼 스타일 */
+  .find-form {
+    width: 100%;
+    max-width: 400px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* 입력 그룹 스타일 */
+  .input-group {
+    margin-bottom: 15px;
+    text-align: left;
+  }
+  
+  .input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+  
+  .input-group input:focus {
+    border-color: #ff6b6b;
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 107, 107, 0.5);
+  }
+  
+  /* 버튼 스타일 */
+  .find-form-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .find-form-button:hover {
+    background-color: #ff4c4c;
+    transform: scale(1.02);
+  }
+  
