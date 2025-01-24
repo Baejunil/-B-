@@ -1,38 +1,28 @@
 package com.example.backend.dto;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 @Entity
-@Getter
-@Setter
-@ToString
+@Data
 public class MiniHome {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long miniHomeId;
+    @Column(name = "mini_home_id")
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    private Users user;
+    @Column(name = "user_id", nullable = false, unique = true)
+    private String userId; // 유저 ID와 연결
 
-    private String background;
+    private String background; // 배경 이미지 URL
+    private String description; // 미니홈 설명
 
-    @Lob
-    private String description;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
+    @Column(name = "created_date", nullable = false, updatable = false)
+    private LocalDateTime createdDate = LocalDateTime.now(); // 생성일
 }
