@@ -12,6 +12,7 @@ import DiaryForm from "./components/Diary/DiaryForm";
 import DiaryEdit from "./components/Diary/DiaryEdit";
 import FindPassword from "./components/ResetPassword"; // 비밀번호 찾기 컴포넌트 추가
 import FindId from "./components/Findld"; // 아이디 찾기 컴포넌트 추가
+import Friends from "./components/Friends"; // 일촌 관리 컴포넌트 추가
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
@@ -66,6 +67,11 @@ function App() {
         <Route
           path="/board"
           element={<Layout setIsLoggedIn={setIsLoggedIn}><Board /></Layout>}
+        />
+        {/* 일촌 관리 */}
+        <Route
+          path="/friends"
+          element={<Layout setIsLoggedIn={setIsLoggedIn}><Friends currentUser="yourCurrentUserId" /></Layout>}
         />
       </Routes>
     </Router>

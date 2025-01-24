@@ -1,0 +1,44 @@
+.friends-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .search-bar {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .users-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .user-card {
+    display: flex;
+    justify-content: space-between;
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .user-card button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .user-card button:hover {
+    background-color: #0056b3;
+  }
+  
+  .error-message {
+    color: red;
+    margin: 10px 0;
+  }
+  

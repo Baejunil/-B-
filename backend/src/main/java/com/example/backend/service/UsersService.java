@@ -1,6 +1,7 @@
 package com.example.backend.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,9 +46,9 @@ public class UsersService {
         user.setUsername(signupRequest.getName());
         user.setBirthdate(signupRequest.getBirthdate());
         user.setGender(signupRequest.getGender());
-        user.setJoinDate(signupRequest.getJoinDate()); // 가입 날짜 자동 설정
-        userRepository.save(user);
+        user.setJoinDate(signupRequest.getJoinDate()); // 가입 날짜 설정 (프론트에서 날짜를 넘기거나, 서버에서 now() 사용)
 
+        userRepository.save(user);
         log.info("사용자 저장 완료: {}", user.getUserId());
 
         // 미니홈 생성 및 저장
@@ -56,7 +57,6 @@ public class UsersService {
         minihome.setDescription(signupRequest.getUserId() + "의 미니홈피입니다.");
         minihome.setUserId(signupRequest.getUserId());
         minihome.setCreatedDate(LocalDateTime.now()); // 생성 날짜 설정
-
         minihomeRepository.save(minihome);
 
         log.info("미니홈 저장 완료: {}", minihome.getUserId());
@@ -73,7 +73,6 @@ public class UsersService {
         }
 
         Users user = userOpt.get();
-
         // 비밀번호 검증
         if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
             log.error("비밀번호 불일치: {}", loginRequest.getUserId());
@@ -95,5 +94,12 @@ public class UsersService {
                     log.error("사용자를 찾을 수 없습니다: {}", userId);
                     return new IllegalArgumentException("해당 사용자를 찾을 수 없습니다.");
                 });
+    }
+
+    /**
+     * [추가] 전체 사용자 목록 조회
+     */
+    public List<Users> getAllUsers() {
+        return userRepository.findAll();
     }
 }

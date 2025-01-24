@@ -22,7 +22,9 @@ function Header({ setIsLoggedIn }) {
         <button className="nav-btn" onClick={() => navigate("/guestbook")}>방명록</button>
         <button className="nav-btn" onClick={() => navigate("/diary")}>다이어리</button>
         <button className="nav-btn" onClick={() => navigate("/board")}>게시판</button>
+        <button className="nav-btn" onClick={() => navigate("/friends")}>일촌 관리</button>
         <button className="nav-btn logout-btn" onClick={handleLogout}>로그아웃</button>
+        
       </div>
     </div>
   );
