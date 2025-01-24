@@ -8,7 +8,8 @@ function DiaryForm() {
   const [loading, setLoading] = useState(false); // 로딩 상태
   const [error, setError] = useState(null); // 에러 상태
   const navigate = useNavigate();
-
+  
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (loading) return; // 중복 호출 방지
@@ -17,6 +18,7 @@ function DiaryForm() {
     setError(null);
 
     const newDiary = {
+      
       title,
       content,
       createdDate: new Date(),

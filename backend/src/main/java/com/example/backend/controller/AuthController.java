@@ -5,6 +5,9 @@ import com.example.backend.dto.SignupRequest;
 import com.example.backend.dto.Users;
 import com.example.backend.security.JwtProvider;
 import com.example.backend.service.UsersService;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,12 +54,22 @@ public class AuthController {
     @GetMapping("/me")
     public ResponseEntity<?> getCurrentUser(@RequestHeader("Authorization") String token) {
         try {
+            // Bearer 제거
             String jwt = token.replace("Bearer ", "");
-            String userId = jwtProvider.validateToken(jwt).getSubject();
+
+            // validateToken() → Jws<Claims> 반환
+            Jws<Claims> claimsJws = jwtProvider.validateToken(jwt);
+
+            // 실제 Claims 객체를 꺼내어 getSubject() 호출
+            String userId = claimsJws.getBody().getSubject();
+            
+            // userId로 DB 조회
             Users user = userService.getUserById(userId);
+
             return ResponseEntity.ok(Map.of("status", "success", "data", user));
         } catch (Exception e) {
             return ResponseEntity.status(401).body(Map.of("error", e.getMessage()));
         }
     }
+
 }
