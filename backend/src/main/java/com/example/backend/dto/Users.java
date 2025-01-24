@@ -18,20 +18,27 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Users {
-    @Id
-    private String userId;
+	@Id
+    @Column(name = "user_id", nullable = false, unique = true)
+    private String userId; // Primary Key
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(name = "username", nullable = false)
     private String username;
 
+    @Column(name = "birthdate")
+    @Temporal(TemporalType.DATE)
+    private Date birthdate;
+
+    @Column(name = "join_date")
     @Temporal(TemporalType.DATE)
     private Date joinDate;
 
-    private String status;
+    @Column(name = "gender")
+    private String gender;
 }
