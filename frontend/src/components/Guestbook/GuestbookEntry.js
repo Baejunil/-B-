@@ -33,7 +33,7 @@ function GuestbookEntry({ guestbookId, message, date, author, currentUser, onDel
       {canDelete && (
         <button
           onClick={handleDelete}
-          className="delete-button"
+          className="delete-button1"
         >
           X
         </button>
