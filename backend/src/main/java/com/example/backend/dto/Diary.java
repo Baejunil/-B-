@@ -6,9 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Getter;
@@ -23,7 +21,6 @@ public class Diary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long diaryId;
-
     
     private String userId;
 
@@ -31,7 +28,9 @@ public class Diary {
 
     @Lob
     private String content;
-
+    
+    private String visibility; // 공개 설정 (public, private, friends)
+    
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 }

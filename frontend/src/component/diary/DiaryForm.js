@@ -5,6 +5,7 @@ function DiaryForm() {
   const [user, setUser] = useState(null);  // 초기값을 null로 설정
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [visibility, setVisibility] = useState('public');
   const [diaries, setDiaries] = useState([]);
   const navigate = useNavigate();
 
@@ -54,6 +55,7 @@ function DiaryForm() {
       userId: user.data.userId,  // `user` 객체에서 `id`를 가져와서 사용
       title,
       content,
+      visibility,
       createdDate: new Date(),
     };
 
@@ -83,6 +85,17 @@ function DiaryForm() {
           onChange={(e) => setContent(e.target.value)}
           required
         />
+      </div>
+      <div>
+        <label>공개 설정</label>
+        <select
+          value={visibility}
+          onChange={(e) => setVisibility(e.target.value)}
+        >
+          <option value="public">전체 공개</option>
+          <option value="private">비공개</option>
+          <option value="friends">일촌 공개</option>
+        </select>
       </div>
       <button type="submit">작성</button>
     </form>
