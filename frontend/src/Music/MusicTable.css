@@ -1,0 +1,48 @@
+.music-table {
+    width: 80%;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+.music-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.music-table th, .music-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.music-table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.music-table button {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.music-table button:hover {
+    background-color: #45a049;
+}
+
+.music-table .playing {
+    background-color: #f44336;
+}
+
+.music-player-bar {
+    margin-top: 20px;
+    text-align: center;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
