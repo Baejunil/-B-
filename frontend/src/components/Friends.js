@@ -3,15 +3,14 @@ import axios from "axios";
 import "./Friends.css";
 
 function Friends({ currentUser }) {
-  const [users, setUsers] = useState([]);         // 전체 사용자 목록
+  const [users, setUsers] = useState([]); // 전체 사용자 목록
   const [searchTerm, setSearchTerm] = useState("");
-  const [friends, setFriends] = useState([]);     // 내가 팔로우하고 있는 관계
-  const [error, setError] = useState(null);       // 에러 메시지
-  const [loading, setLoading] = useState(false);  // 로딩 상태
+  const [friends, setFriends] = useState([]); // 친구 목록
+  const [pendingRequests, setPendingRequests] = useState([]); // 받은 팔로우 요청 목록
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  // 컴포넌트 마운트/ currentUser 변경 시 친구 목록, 전체 유저 목록 가져오기
   useEffect(() => {
-    // currentUser가 없으면 요청하지 않음
     if (!currentUser) return;
 
     const fetchData = async () => {
@@ -19,16 +18,20 @@ function Friends({ currentUser }) {
         setLoading(true);
         setError(null);
 
-        // 1) 전체 유저 목록 (백엔드: /api/users/all)
-        const allUsersRes = await axios.get("/api/users/all");
+        // 전체 사용자 목록 가져오기
+        const allUsersRes = await axios.get("http://localhost:8080/friends/all");
         setUsers(allUsersRes.data);
 
-        // 2) 내가 현재 팔로우하는 friend 목록 (백엔드: /friends/{userId})
-        const friendsRes = await axios.get(`/friends/${currentUser}`);
-        setFriends(friendsRes.data);
+        // 내가 팔로우한 사용자 목록 가져오기
+        const friendsRes = await axios.get(`http://localhost:8080/friends/${currentUser}`);
+        setFriends(friendsRes.data.map(f => f.friendUser.userId)); // API 응답 구조 반영
+
+        // 내가 받은 팔로우 요청 목록 가져오기
+        const pendingRes = await axios.get(`http://localhost:8080/friends/pending/${currentUser}`);
+        setPendingRequests(pendingRes.data);
 
       } catch (err) {
-        console.error(err);
+        console.error("API 요청 오류:", err);
         setError("정보를 불러오는 중 오류가 발생했습니다.");
       } finally {
         setLoading(false);
@@ -39,46 +42,104 @@ function Friends({ currentUser }) {
   }, [currentUser]);
 
   /**
-   * [POST] /friends/follow
+   * [POST] 친구 요청 보내기 (PENDING 상태로 저장)
    */
-  const handleFollow = async (friendUserId) => {
+  const handleSendRequest = async (receiverId) => {
+    console.log("팔로우 요청 데이터:", { userId: currentUser, friendUserId: receiverId });
+
     try {
-      await axios.post("/friends/follow", {
+      await axios.post("http://localhost:8080/friends/request", {
         userId: currentUser,
-        friendUserId,
+        friendUserId: receiverId,
+      }, {
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
-      // 로컬 state 갱신
-      setFriends(prev => [...prev, { userId: currentUser, friendUserId }]);
+
+      alert("팔로우 요청을 보냈습니다.");
+
     } catch (err) {
-      console.error(err);
-      alert("팔로우 중 오류가 발생했습니다.");
+      console.error("팔로우 요청 오류:", err.response ? err.response.data : err.message);
+      alert("팔로우 요청 중 오류가 발생했습니다.");
     }
   };
 
   /**
-   * [DELETE] /friends/unfollow
+   * [PATCH] 친구 요청 수락
+   */
+  const handleAcceptRequest = async (requestId) => {
+    try {
+      await axios.patch("http://localhost:8080/friends/accept", null, {
+        params: { requestId },
+      });
+
+      alert("팔로우 요청을 수락했습니다.");
+
+      // 목록에서 제거
+      setPendingRequests(prev => prev.filter(request => request.requestId !== requestId));
+
+      // 친구 목록 갱신
+      const friendsRes = await axios.get(`http://localhost:8080/friends/${currentUser}`);
+      setFriends(friendsRes.data.map(f => f.friendUser.userId));
+
+    } catch (err) {
+      console.error("팔로우 요청 수락 오류:", err.response ? err.response.data : err.message);
+      alert("팔로우 요청 수락 중 오류가 발생했습니다.");
+    }
+  };
+
+  /**
+   * [DELETE] 친구 요청 거절
+   */
+  const handleRejectRequest = async (requestId) => {
+    try {
+      await axios.delete("http://localhost:8080/friends/reject", {
+        params: { requestId },
+      });
+
+      alert("팔로우 요청을 거절했습니다.");
+
+      // 목록에서 제거
+      setPendingRequests(prev => prev.filter(request => request.requestId !== requestId));
+
+    } catch (err) {
+      console.error("팔로우 요청 거절 오류:", err.response ? err.response.data : err.message);
+      alert("팔로우 요청 거절 중 오류가 발생했습니다.");
+    }
+  };
+
+  /**
+   * [DELETE] 친구 삭제 요청
    */
   const handleUnfollow = async (friendUserId) => {
+    console.log("언팔로우 요청 데이터:", { userId: currentUser, friendUserId });
+
     try {
-      await axios.delete("/friends/unfollow", {
+      await axios.delete("http://localhost:8080/friends/unfollow", {
         params: { userId: currentUser, friendUserId },
       });
-      // 로컬 state에서 제거
-      setFriends(prev => prev.filter(f => f.friendUserId !== friendUserId));
+
+      alert("언팔로우 성공");
+
+      // 언팔로우 후 최신 친구 목록 다시 가져오기
+      const friendsRes = await axios.get(`http://localhost:8080/friends/${currentUser}`);
+      setFriends(friendsRes.data.map(f => f.friendUser.userId));
+
     } catch (err) {
-      console.error(err);
+      console.error("언팔로우 요청 오류:", err.response ? err.response.data : err.message);
       alert("언팔로우 중 오류가 발생했습니다.");
     }
   };
 
-  // 검색 필터 적용 (ex: user.username이 searchTerm를 포함)
-  const filteredUsers = users.filter(user =>
-    user.username.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // 본인 계정 제외한 검색 결과 필터링
+  const filteredUsers = users
+    .filter(user => user.username.toLowerCase().includes(searchTerm.toLowerCase()))
+    .filter(user => currentUser && user.userId !== currentUser); // ✅ currentUser가 null일 경우 대비
 
-  // 해당 userId가 내 friend 목록에 있는지 판단
+  // 내가 해당 유저를 팔로우했는지 확인
   const isFollowing = (userId) => {
-    return friends.some(f => f.friendUserId === userId);
+    return friends.includes(userId); // API 응답 구조를 반영하여 수정
   };
 
   return (
@@ -93,40 +154,37 @@ function Friends({ currentUser }) {
         className="search-bar"
       />
 
-      {/* 에러 표시 */}
       {error && <div className="error-message">{error}</div>}
-      {/* 로딩 표시 */}
       {loading && <div>로딩 중...</div>}
 
-      {/* 유저 목록 표시 */}
+      {/* 받은 친구 요청 목록 */}
+      <h2>일촌 요청</h2>
+      {pendingRequests.length === 0 ? (
+        <p>받은 일촌 요청이 없습니다.</p>
+      ) : (
+        pendingRequests.map(request => (
+          <div key={request.requestId} className="user-card">
+            <span>{request.requester.userId}님의 요청</span>
+            <button onClick={() => handleAcceptRequest(request.requestId)}>수락</button>
+            <button onClick={() => handleRejectRequest(request.requestId)}>거절</button>
+          </div>
+        ))
+      )}
+
+      <h2>회원 목록</h2>
       <div className="users-list">
         {filteredUsers.length === 0 ? (
           <p>검색 결과가 없습니다.</p>
         ) : (
           filteredUsers.map((user) => {
-            // 본인 계정은 버튼 표시 X
-            if (user.userId === currentUser) {
-              return (
-                <div key={user.userId} className="user-card">
-                  <span>{user.username} (본인)</span>
-                </div>
-              );
-            }
-
             const followed = isFollowing(user.userId);
-
             return (
               <div key={user.userId} className="user-card">
                 <span>{user.username}</span>
-
                 {followed ? (
-                  <button onClick={() => handleUnfollow(user.userId)}>
-                    언팔로우
-                  </button>
+                  <button onClick={() => handleUnfollow(user.userId)}>언팔로우</button>
                 ) : (
-                  <button onClick={() => handleFollow(user.userId)}>
-                    팔로우
-                  </button>
+                  <button onClick={() => handleSendRequest(user.userId)}>팔로우 요청</button>
                 )}
               </div>
             );
