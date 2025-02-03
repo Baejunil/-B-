@@ -23,7 +23,7 @@ const Login = () => {
       // 서버에서 반환된 JWT를 저장
       const token = response.data.token; // 로그인 성공 시 반환된 JWT
       localStorage.setItem("token", token); // JWT를 LocalStorage에 저장
-console.log(localStorage)
+      console.log(localStorage)
       alert(response.data.message); // 로그인 성공 메시지
       navigate("/home"); // 로그인 후 홈 페이지로 이동
     } catch (error) {

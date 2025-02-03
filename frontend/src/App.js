@@ -16,7 +16,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Home from "./pages/Home";
 //import Guestbook from "./components/Guestbook/Guestbook";
 import Diary from "./component/diary/Diary";
-//import Board from "./components/Board";
+import Board from "./component/board/Board";
 import Login from "./component/Login"; // 파일명과 일치하도록 수정
 import Signup from "./component/Signup"; // 파일명과 일치하도록 수정
 import Layout from "./component/Layout";
@@ -25,6 +25,8 @@ import DiaryForm from "./component/diary/DiaryForm";
 import DiaryEdit from "./component/diary/DiaryEdit";
 import FindPassword from "./component/ResetPassword"; // 비밀번호 찾기 컴포넌트 추가
 import FindId from "./component/FindId"; // 아이디 찾기 컴포넌트 추가
+import BoardForm from './component/board/BoardForm';
+import BoardDetail from './component/board/BoardDetail';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
@@ -72,6 +74,20 @@ function App() {
           path="/diary/edit/:id"
           element={<Layout setIsLoggedIn={setIsLoggedIn}><DiaryEdit /></Layout>}
         />
+        <Route
+          path="/board"
+          element={<Layout setIsLoggedIn={setIsLoggedIn}><Board /></Layout>}
+        />
+
+        <Route
+          path="/board/create"
+          element={<Layout setIsLoggedIn={setIsLoggedIn}><BoardForm /></Layout>}
+        />
+        <Route
+          path="/board/:id"
+          element={<Layout setIsLoggedIn={setIsLoggedIn}><BoardDetail/></Layout>}
+        />
+        
       </Routes>
     </Router>
 

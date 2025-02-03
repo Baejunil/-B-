@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function DiaryCommentForm({ diaryId, onCommentAdded }) {
+function DiaryCommentForm({ diaryId, onCommentAdded, userId }) {
   const [comment, setComment] = useState('');
 
 
@@ -12,6 +12,7 @@ function DiaryCommentForm({ diaryId, onCommentAdded }) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        userId: userId,
         comment: comment,
         createdDate: new Date(),
       }),

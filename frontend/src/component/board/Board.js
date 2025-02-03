@@ -13,7 +13,7 @@ function Board() {
         .then(data => setBoards(data));
     }, []);
   
-  
+    
     
   
     return (
