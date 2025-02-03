@@ -52,7 +52,7 @@ public class DiaryService {
 	    
 	    
 	    
-	 // 댓글 작성 (Create)
+	    // 댓글 작성 (Create)
 	    public DiaryComment createComment(Long diaryId, DiaryComment comment) {
 	        Diary diary = diaryRepository.findById(diaryId).orElse(null);
 	        if (diary != null) {

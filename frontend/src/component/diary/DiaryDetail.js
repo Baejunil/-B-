@@ -84,7 +84,7 @@ function DiaryDetail() {
       <br />
 
       {/* 댓글 목록 표시 */}
-      <CommentList diaryId={id}  />
+      <CommentList diaryId={id} />
     </div>
   );
 }

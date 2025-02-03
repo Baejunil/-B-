@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import BoardCommentList from './BoardCommentList';
 
 
 
@@ -51,6 +52,9 @@ function BoardDetail() {
       ) : (
         <p>게시판 불러오는 중...</p>
       )}
+
+      {/* 댓글 목록 표시 */}
+      <BoardCommentList postId={id}  />
     </div>
   );
 }

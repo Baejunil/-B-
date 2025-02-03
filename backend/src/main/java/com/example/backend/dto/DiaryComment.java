@@ -2,6 +2,7 @@ package com.example.backend.dto;
 
 import java.util.Date;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,9 +28,9 @@ public class DiaryComment {
     @JoinColumn(name = "diaryId")
     private Diary diary;
 
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    private Users user;
+  
+    @Column(name = "userId")
+    private String user;
 
     private String comment;
 

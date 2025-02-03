@@ -64,7 +64,7 @@ public class DiaryController {
     
     
     
- // 댓글 작성 (POST 요청)
+    // 댓글 작성 (POST 요청)
     @PostMapping("/{diaryId}/comments")
     public ResponseEntity<DiaryComment> createComment(@PathVariable Long diaryId, @RequestBody DiaryComment comment) {
         DiaryComment createdComment = diaryService.createComment(diaryId, comment);
